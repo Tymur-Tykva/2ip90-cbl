@@ -1,10 +1,9 @@
-import java.awt.Color;
-
+import java.awt.*;
 import javax.swing.*;
 
 public class Panel extends JPanel {
     public Panel() {
-        setSize(600, 300);
+        setPreferredSize(new Dimension(600, 400));
         setBackground(Color.CYAN);
     }
 }

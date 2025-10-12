@@ -1,6 +1,10 @@
+import javax.swing.SwingUtilities;
+
 public class Main {
     public static void main(String[] args) {
-        Frame frame = new Frame();
-        frame.init();
+        SwingUtilities.invokeLater(() -> {
+            Frame frame = new Frame();
+            frame.init();
+        });
     }
 }

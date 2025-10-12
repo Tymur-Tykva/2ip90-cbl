@@ -1,5 +1,5 @@
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
 public class Frame extends JFrame {
     private Panel panel;
@@ -22,19 +22,19 @@ public class Frame extends JFrame {
      * Initialise the UI layout.
      */
     public void init() {
-        setSize(600, 400); // TODO: Change to be dynamically calculated from the panel size.
-        setLayout(new GridLayout(3, 1));
+        setSize(600, 550); // TODO: Change to be dynamically calculated from the panel size.
+        setLayout(new BorderLayout());
 
         // Create test labels to test the layout.
         JLabel label1 = new JLabel("Top label", JLabel.CENTER);
-        label1.setSize(600, 50);
+        label1.setPreferredSize(new Dimension(600, 100));
         JLabel label2 = new JLabel("Bottom label", JLabel.CENTER);
-        label2.setSize(600, 50);
+        label2.setPreferredSize(new Dimension(600, 50));
 
         // Add elements to the frame.
-        add(label1);
-        add(panel);
-        add(label2);
+        add(label1, BorderLayout.NORTH);
+        add(panel, BorderLayout.CENTER);
+        add(label2, BorderLayout.SOUTH);
 
         setVisible(true);
     }
