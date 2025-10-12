@@ -22,7 +22,7 @@ public class Frame extends JFrame {
      * Initialise the UI layout.
      */
     public void init() {
-        setSize(600, 550); // TODO: Change to be dynamically calculated from the panel size.
+        // Set the layout.
         setLayout(new BorderLayout());
 
         // Create test labels to test the layout.
@@ -36,6 +36,10 @@ public class Frame extends JFrame {
         add(panel, BorderLayout.CENTER);
         add(label2, BorderLayout.SOUTH);
 
+        // Display the frame.
+        pack();
         setVisible(true);
+
+        // TODO: Start the game loop.
     }
 }
