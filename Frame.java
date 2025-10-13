@@ -13,6 +13,7 @@ public class Frame extends JFrame {
         super("SOME TITLE");
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocation(450,100);
 
         panel = new Panel();
         gameLoop = new GameLoop();
