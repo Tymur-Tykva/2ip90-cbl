@@ -1,5 +1,6 @@
 import java.awt.Point;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
 
 public class StateManager {
@@ -8,8 +9,11 @@ public class StateManager {
     private static final Direction INITIAL_SNAKE_DIRECTION = Direction.R;
 
     private Deque<Point> snake; // Front of the queue is the head.
+    private ArrayList<Apple> apples;
 
     public StateManager() {
+        this.apples = new ArrayList<>();
+
         // Create a dequeue representing the snake, and create the initial points.
         this.snake = new ArrayDeque<>();
 
