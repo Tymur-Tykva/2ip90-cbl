@@ -5,35 +5,38 @@ import java.util.Set;
 
 public class InputBuffer {
     private static final int MAX_BUFFER_SIZE = 4; // Prevent queueinig up too many inputs.
-    private static final Set<Integer> VALID_KEY_CODES = Set.of(
-            // Directions.
-            KeyEvent.VK_UP,
-            KeyEvent.VK_DOWN,
-            KeyEvent.VK_LEFT,
-            KeyEvent.VK_RIGHT,
-            // Pause.
-            KeyEvent.VK_P);
 
-    private Queue<Integer> buffer; // Buffer of keycodes.
+    private Queue<Direction> directionBuffer; // Buffer of directions.
+    private boolean paused; // Indicate if the pause button was pressed.
 
     public InputBuffer() {
-        this.buffer = new LinkedList<>();
+        this.directionBuffer = new LinkedList<>();
+        this.paused = false;
     }
 
     public void add(KeyEvent keyEvent) {
-        int keyCode = keyEvent.getKeyCode();
+        switch (keyEvent.getKeyCode()) {
+            // Direction keys.
+            case KeyEvent.VK_UP:
+                this.directionBuffer.add(Direction.U);
+                break;
+            case KeyEvent.VK_DOWN:
+                this.directionBuffer.add(Direction.D);
+                break;
+            case KeyEvent.VK_LEFT:
+                this.directionBuffer.add(Direction.L);
+                break;
+            case KeyEvent.VK_RIGHT:
+                this.directionBuffer.add(Direction.R);
+                break;
 
-        // Exit if keycode is invalid.
-        if (!VALID_KEY_CODES.contains(keyCode)) {
-            return;
+            // Pause button.
+            case KeyEvent.VK_P | KeyEvent.VK_ESCAPE:
+                this.paused = !this.paused;
+                break;
+
+            default:
+                break;
         }
-
-        // If the buffer is full, remove the oldest element.
-        if (buffer.size() == MAX_BUFFER_SIZE) {
-            buffer.poll();
-        }
-
-        // Add the new element to the buffer.
-        buffer.add(keyCode);
     }
 }
