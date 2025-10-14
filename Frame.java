@@ -3,6 +3,7 @@ import javax.swing.*;
 
 public class Frame extends JFrame {
     private Panel panel;
+    private StateManager stateManager;
     private GameLoop gameLoop;
 
     /*
@@ -13,10 +14,11 @@ public class Frame extends JFrame {
         super("SOME TITLE");
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocation(450,100);
+        setLocation(450, 100);
 
-        panel = new Panel();
-        gameLoop = new GameLoop();
+        this.panel = new Panel();
+        this.stateManager = new StateManager();
+        this.gameLoop = new GameLoop(panel, stateManager);
     }
 
     /*
