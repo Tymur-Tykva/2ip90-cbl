@@ -1,6 +1,6 @@
 public class GameLoop implements Runnable {
     private static final int FPS = 2;
-    private static final long INTERVAL_NS = 1_000_000_000L / FPS;
+    private static final long INTERVAL_NS = 1_000_000_000L / FPS; // this is 1 second in nanosecods
 
     private Panel panel; // Used to triger repaint().
     private StateManager stateManager; // Used to update the game state every update.
