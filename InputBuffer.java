@@ -5,8 +5,8 @@ import java.util.Queue;
 public class InputBuffer {
     private static final int MAX_BUFFER_SIZE = 4; // Prevent queueinig up too many inputs.
 
-    private Queue<Direction> directionBuffer; // Buffer of directions.
-    private boolean paused; // Indicate if the pause button was pressed.
+    private volatile Queue<Direction> directionBuffer; // Buffer of directions.
+    private volatile boolean paused; // Indicate if the pause button was pressed.
 
     public InputBuffer() {
         this.directionBuffer = new LinkedList<>();

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Deque;
 
 public class StateManager {
+    private InputBuffer inputBuffer;
+
     private static final Point INITIAL_SNAKE_POSITION = new Point(4, 4);
     private static final int INITIAL_SNAKE_LENGTH = 3;
     private static final Direction INITIAL_SNAKE_DIRECTION = Direction.R;
@@ -11,13 +13,13 @@ public class StateManager {
     private Deque<Point> snake; // Front of the queue is the head.
     private ArrayList<Apple> apples;
 
-    public StateManager() {
-        this.apples = new ArrayList<>();
+    public StateManager(InputBuffer inputBuffer) {
+        this.inputBuffer = inputBuffer;
 
-        // Create a dequeue representing the snake, and create the initial points.
+        this.apples = new ArrayList<>();
         this.snake = new ArrayDeque<>();
 
-        // Add the initial point, and then add the body of the snake behind it.
+        // Add the 'head' point of the snake, and then the body of the snake behind it.
         Point snakePoint = new Point(INITIAL_SNAKE_POSITION.x, INITIAL_SNAKE_POSITION.y);
         for (int i = 0; i < INITIAL_SNAKE_LENGTH; i++) {
             this.snake.add(snakePoint);
@@ -27,6 +29,10 @@ public class StateManager {
 
     public Deque<Point> getSnake() {
         return snake;
+    }
+
+    public ArrayList<Apple> getApples() {
+        return apples;
     }
 
     /*

@@ -2,6 +2,7 @@ import java.awt.*;
 import javax.swing.*;
 
 public class Frame extends JFrame {
+    private InputBuffer inputBuffer;
     private Panel panel;
     private StateManager stateManager;
     private GameLoop gameLoop;
@@ -16,9 +17,10 @@ public class Frame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocation(450, 100);
 
-        this.panel = new Panel();
-        this.stateManager = new StateManager();
-        this.gameLoop = new GameLoop(panel, stateManager);
+        inputBuffer = new InputBuffer();
+        panel = new Panel(inputBuffer);
+        stateManager = new StateManager(inputBuffer);
+        gameLoop = new GameLoop(panel, stateManager);
     }
 
     /*
