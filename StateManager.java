@@ -2,16 +2,22 @@ import java.awt.Point;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
+import java.util.HashSet;
+import java.util.Set;
 
 public class StateManager {
     private InputBuffer inputBuffer;
 
     private static final Point INITIAL_SNAKE_POSITION = new Point(4, 4);
     private static final int INITIAL_SNAKE_LENGTH = 3;
-    private static final Direction INITIAL_SNAKE_DIRECTION = Direction.R;
 
     private Deque<Point> snake; // Front of the queue is the head.
     private ArrayList<Apple> apples;
+
+    private Direction snakeDirection = Direction.R;
+    private boolean growSnake = false; // When true, snake will grow next update.
+
+    private boolean gameOver = false;
 
     /* ---------------- Constructor --------------- */
     public StateManager(InputBuffer inputBuffer) {
@@ -24,11 +30,44 @@ public class StateManager {
         Point snakePoint = new Point(INITIAL_SNAKE_POSITION.x, INITIAL_SNAKE_POSITION.y);
         for (int i = 0; i < INITIAL_SNAKE_LENGTH; i++) {
             this.snake.add(snakePoint);
-            snakePoint = updateWithDirection(snakePoint, INITIAL_SNAKE_DIRECTION.GetOpposite());
+            snakePoint = updateWithDirection(snakePoint, snakeDirection.GetOpposite());
         }
     }
 
     /* ------------------ Public ------------------ */
+    public void update() {
+        // Update stored snake direction.
+        Direction inputDirection = inputBuffer.getDirection();
+        if (inputDirection != null) {
+            snakeDirection = inputDirection;
+        }
+
+        // Update the snake's position.
+        Point head = snake.peekFirst();
+        Point newHead = updateWithDirection(head, snakeDirection);
+        snake.add(newHead);
+
+        // Remove the tail of the snake if not growing.
+        if (!growSnake) {
+            snake.removeLast();
+        }
+
+        // Check for final collisions.
+        if (isFinalColliding()) {
+            System.out.println("Game over");
+            gameOver = true;
+        }
+
+        // Check for apple collisions.
+        Apple apple = isAppleColliding();
+
+        if (apple != null) {
+            // TODO: Handle the apple collision.
+            System.out.println("Apple collision");
+        }
+    }
+
+    /* ------------------ Getters ----------------- */
     public Deque<Point> getSnake() {
         return snake;
     }
@@ -37,8 +76,8 @@ public class StateManager {
         return apples;
     }
 
-    public void update() {
-        Direction direction = inputBuffer.getDirection();
+    public boolean isGameOver() {
+        return gameOver;
     }
 
     /* ------------------ Private ----------------- */
@@ -72,5 +111,35 @@ public class StateManager {
         return newPosition;
     }
 
-    // TODO: Add method to validate if a point is in bounds.
+    private boolean isFinalColliding() {
+        return isSnakeSelfColliding() || isInBounds(snake.peekFirst());
+    }
+
+    private Apple isAppleColliding() {
+        Point head = snake.peekFirst();
+
+        for (Apple apple : apples) {
+            if (apple.getPosition().equals(head)) {
+                return apple;
+            }
+        }
+
+        return null;
+    }
+
+    private boolean isSnakeSelfColliding() {
+        Set<Point> snakePoints = new HashSet<Point>();
+
+        for (Point point : snake) {
+            snakePoints.add(point);
+        }
+
+        return snakePoints.size() != snake.size();
+
+    }
+
+    private boolean isInBounds(Point position) {
+        return position.x >= 0 && position.x < Config.GRID_WIDTH
+                && position.y >= 0 && position.y < Config.GRID_HEIGHT;
+    }
 }
