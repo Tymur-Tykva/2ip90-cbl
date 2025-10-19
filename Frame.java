@@ -2,7 +2,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 
-
 public class Frame extends JFrame {
     private InputBuffer inputBuffer;
     private Panel panelMain;
@@ -20,7 +19,7 @@ public class Frame extends JFrame {
         setLocation(450, 100);
 
         this.inputBuffer = new InputBuffer();
-        this.panelMain = new Panel();
+        this.panelMain = new Panel(this.inputBuffer);
         this.stateManager = new StateManager(this.inputBuffer);
         this.gameLoop = new GameLoop(panelMain, stateManager);
     }
