@@ -45,6 +45,6 @@ public class Frame extends JFrame {
         pack();
         setVisible(true);
 
-        // TODO: Start the game loop.
+        gameLoop.start();
     }
 }

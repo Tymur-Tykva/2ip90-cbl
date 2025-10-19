@@ -36,6 +36,12 @@ public class StateManager {
 
     /* ------------------ Public ------------------ */
     public void update() {
+        System.out.println("=== Update ===");
+        System.out.println("snake: ");
+        for (Point point : snake) {
+            System.out.print(point + " ");
+        }
+
         // Update stored snake direction.
         Direction inputDirection = inputBuffer.getDirection();
         if (inputDirection != null) {
@@ -45,7 +51,7 @@ public class StateManager {
         // Update the snake's position.
         Point head = snake.peekFirst();
         Point newHead = updateWithDirection(head, snakeDirection);
-        snake.add(newHead);
+        snake.addFirst(newHead);
 
         // Remove the tail of the snake if not growing.
         if (!growSnake) {
@@ -112,7 +118,7 @@ public class StateManager {
     }
 
     private boolean isFinalColliding() {
-        return isSnakeSelfColliding() || isInBounds(snake.peekFirst());
+        return isSnakeSelfColliding() || !isInBounds(snake.peekFirst());
     }
 
     private Apple isAppleColliding() {
@@ -135,7 +141,6 @@ public class StateManager {
         }
 
         return snakePoints.size() != snake.size();
-
     }
 
     private boolean isInBounds(Point position) {
