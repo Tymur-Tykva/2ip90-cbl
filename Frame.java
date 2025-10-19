@@ -57,6 +57,8 @@ public class Frame extends JFrame {
         PauseButton pause = new PauseButton("");
         panelTop.add(pause, BorderLayout.EAST);
         pause.addActionListener((ActionEvent e) -> {
+
+            // TODO: IMPLEMENT PAUSE PANEL
             System.out.println("Something");
         });
 
@@ -83,19 +85,6 @@ public class Frame extends JFrame {
         add(panelTop, BorderLayout.NORTH);
         add(panelBot, BorderLayout.SOUTH);
         add(panelMain, BorderLayout.CENTER);
-
-        /*
-         * // Create test labels to test the layout.
-         * JLabel label1 = new JLabel("Top label", JLabel.CENTER);
-         * label1.setPreferredSize(new Dimension(600, 100));
-         * JLabel label2 = new JLabel("Bottom label", JLabel.CENTER);
-         * label2.setPreferredSize(new Dimension(600, 50));
-         * 
-         * // Add elements to the frame.
-         * add(label1, BorderLayout.NORTH);
-         * add(panel, BorderLayout.CENTER);
-         * add(label2, BorderLayout.SOUTH);
-         */
 
         // Display the frame.
         pack();
