@@ -35,16 +35,16 @@ public class GameLoop implements Runnable {
         long previousTime = System.nanoTime();
         long lag = 0L;
 
-        System.out.println("=== Loop Start ===");
-        System.out.println("interval: " + INTERVAL_NS);
+        // System.out.println("=== Loop Start ===");
+        // System.out.println("interval: " + INTERVAL_NS);
 
         while (running) {
             // Calculate the elapsed time since last update.
             long currentTime = System.nanoTime();
             long elapsed = currentTime - previousTime;
 
-            System.out.println("=== Loop ===");
-            System.out.println("elapsed: " + elapsed);
+            // System.out.println("=== Loop ===");
+            // System.out.println("elapsed: " + elapsed);
 
             previousTime = currentTime;
             lag += elapsed;
@@ -72,8 +72,8 @@ public class GameLoop implements Runnable {
                 long sleepMs = sleepTime / 1_000_000L;
                 int sleepNs = (int) (sleepTime % 1_000_000L);
 
-                System.out.println("=== Sleep ===");
-                System.out.println("sleep: " + sleepMs + "ms " + sleepNs + "ns");
+                // System.out.println("=== Sleep ===");
+                // System.out.println("sleep: " + sleepMs + "ms " + sleepNs + "ns");
 
                 try {
                     Thread.sleep(sleepMs, sleepNs);

@@ -36,11 +36,11 @@ public class StateManager {
 
     /* ------------------ Public ------------------ */
     public void update() {
-        System.out.println("=== Update ===");
-        System.out.println("snake: ");
-        for (Point point : snake) {
-            System.out.print(point + " ");
-        }
+        // System.out.println("=== Update ===");
+        // System.out.println("snake: ");
+        // for (Point point : snake) {
+        // System.out.print(point + " ");
+        // }
 
         // Update stored snake direction.
         Direction inputDirection = inputBuffer.getDirection();
