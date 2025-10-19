@@ -1,33 +1,32 @@
 import java.awt.event.KeyEvent;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Set;
 
 public class InputBuffer {
     private static final int MAX_BUFFER_SIZE = 4; // Prevent queueinig up too many inputs.
 
-    private Queue<Direction> directionBuffer; // Buffer of directions.
-    private boolean paused; // Indicate if the pause button was pressed.
+    private volatile Queue<Direction> directionBuffer; // Buffer of directions.
+    private volatile boolean paused; // Indicate if the pause button was pressed.
 
     public InputBuffer() {
         this.directionBuffer = new LinkedList<>();
         this.paused = false;
     }
 
-    public void add(KeyEvent keyEvent) {
+    public void handleEvent(KeyEvent keyEvent) {
         switch (keyEvent.getKeyCode()) {
             // Direction keys.
             case KeyEvent.VK_UP:
-                this.directionBuffer.add(Direction.U);
+                this.addDirection(Direction.U);
                 break;
             case KeyEvent.VK_DOWN:
-                this.directionBuffer.add(Direction.D);
+                this.addDirection(Direction.D);
                 break;
             case KeyEvent.VK_LEFT:
-                this.directionBuffer.add(Direction.L);
+                this.addDirection(Direction.L);
                 break;
             case KeyEvent.VK_RIGHT:
-                this.directionBuffer.add(Direction.R);
+                this.addDirection(Direction.R);
                 break;
 
             // Pause button.
@@ -38,5 +37,31 @@ public class InputBuffer {
             default:
                 break;
         }
+    }
+
+    public Direction peekDirection() {
+        return directionBuffer.peek();
+    }
+
+    public Direction getDirection() {
+        return directionBuffer.poll();
+    }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    private void addDirection(Direction direction) {
+        // Do not queue inputs if the game is paused.
+        if (this.paused) {
+            return;
+        }
+
+        // Remove the oldest input if the buffer is full.
+        if (this.directionBuffer.size() >= MAX_BUFFER_SIZE) {
+            this.directionBuffer.poll();
+        }
+
+        this.directionBuffer.add(direction);
     }
 }

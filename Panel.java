@@ -3,7 +3,10 @@ import java.util.*;
 import javax.swing.*;
 
 public class Panel extends JPanel {
-    public Panel() {
+    InputBuffer inputBuffer;
+
+    public Panel(InputBuffer inputBuffer) {
+        this.inputBuffer = inputBuffer;
         setPreferredSize(new Dimension(605, 605));
 
     }

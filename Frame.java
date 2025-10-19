@@ -4,6 +4,7 @@ import javax.swing.*;
 
 
 public class Frame extends JFrame {
+    private InputBuffer inputBuffer;
     private Panel panelMain;
     private StateManager stateManager;
     private GameLoop gameLoop;
@@ -18,8 +19,9 @@ public class Frame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocation(450, 100);
 
+        this.inputBuffer = new InputBuffer();
         this.panelMain = new Panel();
-        this.stateManager = new StateManager();
+        this.stateManager = new StateManager(this.inputBuffer);
         this.gameLoop = new GameLoop(panelMain, stateManager);
     }
 
@@ -90,6 +92,6 @@ public class Frame extends JFrame {
         pack();
         setVisible(true);
 
-        // TODO: Start the game loop.
+        gameLoop.start();
     }
 }
