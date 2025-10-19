@@ -2,7 +2,7 @@ import java.awt.Color;
 import java.awt.Point;
 
 public class RedApple extends Apple {
-    Color color = Color.RED;
+    Color color = new Color(255, 59, 59);
 
     public RedApple(Point position) {
         super(position);
@@ -15,5 +15,6 @@ public class RedApple extends Apple {
     @Override
     public void eat(StateManager stateManager) {
         stateManager.growSnake();
+        stateManager.getApples().remove(this);
     }
 }
