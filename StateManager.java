@@ -13,6 +13,7 @@ public class StateManager {
     private Deque<Point> snake; // Front of the queue is the head.
     private ArrayList<Apple> apples;
 
+    /* ---------------- Constructor --------------- */
     public StateManager(InputBuffer inputBuffer) {
         this.inputBuffer = inputBuffer;
 
@@ -27,6 +28,7 @@ public class StateManager {
         }
     }
 
+    /* ------------------ Public ------------------ */
     public Deque<Point> getSnake() {
         return snake;
     }
@@ -35,6 +37,11 @@ public class StateManager {
         return apples;
     }
 
+    public void update() {
+        Direction direction = inputBuffer.getDirection();
+    }
+
+    /* ------------------ Private ----------------- */
     /*
      * Update the position of a point based on a given direction. Used to update the
      * position of the snake.
