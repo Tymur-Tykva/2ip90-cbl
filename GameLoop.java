@@ -58,7 +58,7 @@ public class GameLoop implements Runnable {
             if (stateManager.isGameOver()) {
                 // TODO: Gracefully handle game over.
                 running = false;
-                // thread.interrupt();
+                break;
             }
 
             // Repaint the panel.
@@ -68,7 +68,7 @@ public class GameLoop implements Runnable {
             long nextFrameTime = previousTime + INTERVAL_NS;
             long sleepTime = nextFrameTime - System.nanoTime();
 
-            if (sleepTime > 0 || !stateManager.isGameOver()) {
+            if (sleepTime > 0) {
                 long sleepMs = sleepTime / 1_000_000L;
                 int sleepNs = (int) (sleepTime % 1_000_000L);
 

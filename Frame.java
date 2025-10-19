@@ -19,8 +19,8 @@ public class Frame extends JFrame {
         setLocation(450, 100);
 
         this.inputBuffer = new InputBuffer();
-        this.panelMain = new Panel(this.inputBuffer);
-        this.stateManager = new StateManager(this.inputBuffer);
+        this.stateManager = new StateManager(inputBuffer);
+        this.panelMain = new Panel(inputBuffer, stateManager);
         this.gameLoop = new GameLoop(panelMain, stateManager);
     }
 

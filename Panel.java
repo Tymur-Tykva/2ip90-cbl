@@ -4,9 +4,11 @@ import javax.swing.*;
 
 public class Panel extends JPanel {
     InputBuffer inputBuffer;
+    StateManager stateManager;
 
-    public Panel(InputBuffer inputBuffer) {
+    public Panel(InputBuffer inputBuffer, StateManager stateManager) {
         this.inputBuffer = inputBuffer;
+        this.stateManager = stateManager;
         setPreferredSize(new Dimension(605, 605));
 
     }
@@ -32,12 +34,9 @@ public class Panel extends JPanel {
         }
 
         // set a 2d array list for containing apples
-        ArrayList<Point> appleLocations = new ArrayList<>();
+        ArrayList<Apple> apples = stateManager.getApples();
         int sideApple = 45;
         int paddingA = 5;
-
-        // set initial red apple
-        appleLocations.add(new Point(7, 5));
 
         // initialize the colors of the different apples
         Color red = new Color(255, 59, 59);
@@ -45,25 +44,21 @@ public class Panel extends JPanel {
         Color yellow = new Color(236, 255, 54);
 
         // paint all of the apples from the array list
-        for (Point point : appleLocations) {
-            Color appleColor = red;
+        for (Apple apple : apples) {
+            Point point = apple.getPosition();
+            Color appleColor = apple.getColor();
             g2D.setColor(appleColor);
             g2D.fillOval(point.x * sqr + paddingA, point.y * sqr + paddingA, sideApple, sideApple);
         }
 
         // Initialize deque for the snake's body
-        Deque<Point> snake = new LinkedList<>();
+        Deque<Point> snake = stateManager.getSnake();
         int paddingS = 14;
         int sideSnake = 28;
 
-        // Add head
         Color colorHead = new Color(36, 59, 93);
-        Point headPoint = new Point(3, 5);
-        snake.addFirst(headPoint);
-
-        // Add body
         Color colorBody = new Color(76, 100, 138);
-        snake.addLast(new Point(2, 5));
+
         Point previousPoint = null;
 
         // paint body and head
