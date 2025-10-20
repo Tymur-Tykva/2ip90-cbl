@@ -44,6 +44,10 @@ public class StateManager {
 
     /* ------------------ Public ------------------ */
     public void update() {
+        if (inputBuffer.isPaused()) {
+            return;
+        }
+
         // System.out.println("=== Update ===");
         // System.out.print("snake: ");
         // for (Point point : snake) {

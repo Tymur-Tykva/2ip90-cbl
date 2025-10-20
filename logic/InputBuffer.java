@@ -17,6 +17,8 @@ public class InputBuffer {
     }
 
     public void handleEvent(KeyEvent keyEvent) {
+        System.out.println("Key event:" + keyEvent.getKeyCode());
+
         switch (keyEvent.getKeyCode()) {
             // Direction keys.
             case KeyEvent.VK_UP:
@@ -33,7 +35,7 @@ public class InputBuffer {
                 break;
 
             // Pause button.
-            case KeyEvent.VK_P | KeyEvent.VK_ESCAPE:
+            case KeyEvent.VK_P:
                 this.paused = !this.paused;
                 break;
 
@@ -56,9 +58,9 @@ public class InputBuffer {
 
     private void addDirection(Direction direction) {
         // Do not queue inputs if the game is paused.
-        if (this.paused) {
-            return;
-        }
+        // if (this.paused) {
+        // return;
+        // }
 
         // Remove the oldest input if the buffer is full.
         if (this.directionBuffer.size() >= MAX_BUFFER_SIZE) {
