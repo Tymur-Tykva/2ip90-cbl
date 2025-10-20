@@ -1,11 +1,12 @@
+package ui;
+
 import java.awt.*;
 import javax.swing.*;
-
 
 /*
      * Makes the design of the pause button
      */
-public class PauseButton extends JButton{
+public class PauseButton extends JButton {
 
     int width = 20;
     int height = 20;
@@ -14,9 +15,8 @@ public class PauseButton extends JButton{
         super(text);
         super.setSize(new Dimension(width, height));
         super.setBackground(new Color(200, 163, 117));
-    
-    }
 
+    }
 
     @Override
     protected void paintComponent(Graphics g) {

@@ -1,9 +1,15 @@
+package logic;
+
+import apples.Apple;
+import apples.RedApple;
 import java.awt.Point;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.Set;
+import utils.Config;
+import utils.Direction;
 
 public class StateManager {
     private InputBuffer inputBuffer;
@@ -27,7 +33,7 @@ public class StateManager {
         Point snakePoint = (Point) Config.INITIAL_SNAKE_POSITION.clone();
         for (int i = 0; i < Config.INITIAL_SNAKE_LENGTH; i++) {
             this.snake.add(snakePoint);
-            snakePoint = updateWithDirection(snakePoint, snakeDirection.GetOpposite());
+            snakePoint = updateWithDirection(snakePoint, snakeDirection.getOpposite());
         }
 
         // Add the initial apples.

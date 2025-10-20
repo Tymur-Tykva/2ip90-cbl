@@ -1,6 +1,11 @@
+package ui;
+
+import apples.Apple;
 import java.awt.*;
 import java.util.*;
 import javax.swing.*;
+import logic.InputBuffer;
+import logic.StateManager;
 
 public class Panel extends JPanel {
     InputBuffer inputBuffer;

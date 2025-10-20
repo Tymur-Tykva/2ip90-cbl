@@ -1,6 +1,9 @@
+package logic;
+
 import java.awt.event.KeyEvent;
 import java.util.LinkedList;
 import java.util.Queue;
+import utils.Direction;
 
 public class InputBuffer {
     private static final int MAX_BUFFER_SIZE = 4; // Prevent queueinig up too many inputs.

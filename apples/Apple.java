@@ -1,8 +1,12 @@
+package apples;
+
 import java.awt.Color;
 import java.awt.Point;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
+import logic.StateManager;
+import utils.Config;
 
 /*
  * General parent class for all apples. Defines base methods.

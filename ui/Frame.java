@@ -1,6 +1,11 @@
+package ui;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
+import logic.GameLoop;
+import logic.InputBuffer;
+import logic.StateManager;
 
 public class Frame extends JFrame {
     private InputBuffer inputBuffer;

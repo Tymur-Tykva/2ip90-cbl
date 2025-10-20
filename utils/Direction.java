@@ -1,8 +1,10 @@
+package utils;
+
 // The possible directions of the snake.
 public enum Direction {
     U, D, L, R;
 
-    public Direction GetOpposite() {
+    public Direction getOpposite() {
         switch (this) {
             case U:
                 return D;

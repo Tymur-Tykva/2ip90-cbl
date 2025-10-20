@@ -1,5 +1,8 @@
+package apples;
+
 import java.awt.Color;
 import java.awt.Point;
+import logic.StateManager;
 
 public class RedApple extends Apple {
     Color color = new Color(255, 59, 59);
