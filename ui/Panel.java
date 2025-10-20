@@ -2,6 +2,8 @@ package ui;
 
 import apples.Apple;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.*;
 import javax.swing.*;
 import logic.InputBuffer;
@@ -16,9 +18,19 @@ public class Panel extends JPanel {
         this.stateManager = stateManager;
         setPreferredSize(new Dimension(605, 605));
 
+        setFocusable(true);
+
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                inputBuffer.handleEvent(e);
+            }
+        });
     }
 
     public void paint(Graphics g) {
+        long start = System.nanoTime();
+
         Graphics2D g2D = (Graphics2D) g;
 
         // set the forloop for the checkpatter
@@ -82,5 +94,7 @@ public class Panel extends JPanel {
             previousPoint = point;
         }
 
+        long end = System.nanoTime();
+        System.out.println("Paint: " + (end - start));
     }
 }
