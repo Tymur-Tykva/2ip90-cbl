@@ -26,7 +26,6 @@ public class Config {
     // Score 'breakpoints', used for apple spawning rules.
     public static final int[] SCORE_BREAKPOINTS = { 3, 6, 10 };
     public static final int BLACK_APPLE_EXPIRES_IN = 10;
-    public static final int PURPLE_APPLE_EXPIRES_IN = 10;
     // Score breakpoint at which the odds of a black apple expiring into a yellow
     // increase.
     public static final float BLACK_TO_YELLOW_LATE_BREAKPOINT = Config.SCORE_BREAKPOINTS[2];
