@@ -9,6 +9,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
 import utils.Config;
@@ -315,7 +316,10 @@ public class StateManager {
     }
 
     private void updateApples() {
-        for (Apple apple : apples) {
+        Iterator<Apple> appleIterator = apples.iterator();
+
+        while (appleIterator.hasNext()) {
+            Apple apple = appleIterator.next();
             apple.update(this);
         }
     }
