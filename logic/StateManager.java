@@ -200,25 +200,12 @@ public class StateManager {
         boolean hasAvailableSpaces = availableSpaces >= Config.APPLE_AVAILABLE_SPACES;
 
         if (!hasAvailableSpaces) {
-            // Aim to have 2 apples on the board:
-            // - 2 Red
+            // Aim to have 1 apple on the board:
+            // - 1 Red
 
-            int redCount = 0;
-
-            for (Apple apple : apples) {
-                if (apple instanceof RedApple) {
-                    redCount += 1;
-                }
+            if (apples.size() == 0) {
+                apples.add(new RedApple(this));
             }
-
-            while (apples.size() < 2) {
-                if (redCount < 2) {
-                    apples.add(new RedApple(this));
-                    redCount += 1;
-                    continue;
-                }
-            }
-
         } else if (score >= Config.SCORE_BREAKPOINTS[1]) {
             // Aim to have 2 apples on the board:
             // - 1 Black
@@ -297,29 +284,18 @@ public class StateManager {
             // Aim to have 1 apple on the board:
             // - 1 Red
 
-            boolean hasRed = false;
-
-            for (Apple apple : apples) {
-                if (apple instanceof RedApple) {
-                    hasRed = true;
-                }
-            }
-
-            while (apples.size() < 1) {
-                if (!hasRed) {
-                    apples.add(new RedApple(this));
-                    hasRed = true;
-                    continue;
-                }
+            if (apples.size() == 0) {
+                apples.add(new RedApple(this));
             }
         }
     }
 
     private void updateApples() {
-        Iterator<Apple> appleIterator = apples.iterator();
+        // Create a copy of the apples list to avoid ConcurrentModificationException
+        // when apples are added/removed during update() calls
+        ArrayList<Apple> applesCopy = new ArrayList<>(apples);
 
-        while (appleIterator.hasNext()) {
-            Apple apple = appleIterator.next();
+        for (Apple apple : applesCopy) {
             apple.update(this);
         }
     }
