@@ -2,6 +2,8 @@ package logic;
 
 import apples.Apple;
 import apples.RedApple;
+import apples.YellowApple;
+
 import java.awt.Point;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -19,30 +21,34 @@ public class StateManager {
 
     private Direction snakeDirection = Direction.R;
     private boolean growSnake = false; // When true, snake will grow next update.
+    private int score = 0;
 
     private boolean gameOver = false;
 
     /* ---------------- Constructor --------------- */
     public StateManager(InputBuffer inputBuffer) {
         this.inputBuffer = inputBuffer;
+        this.reset();
+    }
 
+    /* ------------------ Public ------------------ */
+    public void reset() {
         this.apples = new ArrayList<Apple>();
         this.snake = new ArrayDeque<Point>();
 
         // Add the 'head' point of the snake, and then the body of the snake behind it.
         Point snakePoint = (Point) Config.INITIAL_SNAKE_POSITION.clone();
         for (int i = 0; i < Config.INITIAL_SNAKE_LENGTH; i++) {
-            this.snake.add(snakePoint);
+            this.snake.addLast(snakePoint);
             snakePoint = updateWithDirection(snakePoint, snakeDirection.getOpposite());
         }
 
         // Add the initial apples.
         for (Point position : Config.INITIAL_APPLE_POSITIONS) {
-            this.apples.add(new RedApple(position));
+            this.apples.add(new YellowApple(position));
         }
     }
 
-    /* ------------------ Public ------------------ */
     public void update() {
         if (inputBuffer.isPaused()) {
             return;
@@ -99,6 +105,10 @@ public class StateManager {
         return snake;
     }
 
+    public Direction getSnakeDirection() {
+        return snakeDirection;
+    }
+
     public ArrayList<Apple> getApples() {
         return apples;
     }
@@ -107,9 +117,34 @@ public class StateManager {
         return gameOver;
     }
 
+    public int getScore() {
+        return score;
+    }
+
     /* ------------------ Setters ----------------- */
     public void growSnake() {
         this.growSnake = true;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
+    }
+
+    public void addScore() {
+        this.score += 1;
+    }
+
+    // public void setScore(int score) {
+    // this.score = score;
+    // }
+
+    public void setSnake(Deque<Point> snake) {
+        this.snake = snake;
+    }
+
+    public void setSnake(Deque<Point> snake, Direction direction) {
+        this.snake = snake;
+        this.snakeDirection = direction;
     }
 
     /* ------------------ Private ----------------- */

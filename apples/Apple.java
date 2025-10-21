@@ -12,8 +12,8 @@ import utils.Config;
  * General parent class for all apples. Defines base methods.
  */
 public class Apple {
-    private Point position;
-    private Color color = Color.RED;
+    protected Point position;
+    protected Color color = Color.RED;
 
     /* --------------- Constructors --------------- */
     public Apple(Point position) {
@@ -60,6 +60,7 @@ public class Apple {
      * The apple is then removed by the StateManager.
      */
     public void eat(StateManager stateManager) {
+        stateManager.getApples().remove(this);
     }
 
     /* ------------------ Getters ----------------- */

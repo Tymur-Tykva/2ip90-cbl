@@ -29,8 +29,6 @@ public class Panel extends JPanel {
     }
 
     public void paint(Graphics g) {
-        long start = System.nanoTime();
-
         Graphics2D g2D = (Graphics2D) g;
 
         // set the forloop for the checkpatter
@@ -54,11 +52,6 @@ public class Panel extends JPanel {
         ArrayList<Apple> apples = stateManager.getApples();
         int sideApple = 45;
         int paddingA = 5;
-
-        // initialize the colors of the different apples
-        Color red = new Color(255, 59, 59);
-        Color black = new Color(64, 64, 64);
-        Color yellow = new Color(236, 255, 54);
 
         // paint all of the apples from the array list
         for (Apple apple : apples) {
@@ -93,8 +86,5 @@ public class Panel extends JPanel {
             }
             previousPoint = point;
         }
-
-        long end = System.nanoTime();
-        System.out.println("Paint: " + (end - start));
     }
 }
