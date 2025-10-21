@@ -1,9 +1,9 @@
 package logic;
 
 import apples.Apple;
+import apples.BlackApple;
 import apples.RedApple;
 import apples.YellowApple;
-
 import java.awt.Point;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -45,7 +45,7 @@ public class StateManager {
 
         // Add the initial apples.
         for (Point position : Config.INITIAL_APPLE_POSITIONS) {
-            this.apples.add(new YellowApple(position));
+            this.apples.add(new BlackApple(position));
         }
     }
 
@@ -98,6 +98,9 @@ public class StateManager {
             System.out.println("Apple collision: " + apple.getPosition());
             apple.eat(this);
         }
+
+        // Update the apples.
+        updateApples();
     }
 
     /* ------------------ Getters ----------------- */
@@ -133,6 +136,10 @@ public class StateManager {
     public void addScore() {
         this.score += 1;
     }
+
+    // public void addScore(int score) {
+    // this.score += score;
+    // }
 
     // public void setScore(int score) {
     // this.score = score;
@@ -176,6 +183,29 @@ public class StateManager {
 
         Point newPosition = new Point(x, y);
         return newPosition;
+    }
+
+    private void spawnApples() {
+        if (score >= Config.SCORE_BREAKPOINTS[2]) {
+            // Aim to have 3 apples on the board:
+            // - 1 Black,
+            // - 1 Red and 1 Yellow
+            // - OR 2 Red
+
+        } else if (score >= Config.SCORE_BREAKPOINTS[1]) {
+            // Aim to have 2 apples on the board:
+            // - 1 Red
+            // - 1 Black
+
+        } else if (score >= Config.SCORE_BREAKPOINTS[0]) {
+            //
+        }
+    }
+
+    private void updateApples() {
+        for (Apple apple : apples) {
+            apple.update(this);
+        }
     }
 
     private boolean isFinalColliding() {
