@@ -44,7 +44,7 @@ public class BlackApple extends Apple {
 
         // Set the chance of the black apple expiring into a yellow apple.
         float yellowChance = Config.INITIAL_BLACK_TO_YELLOW_CHANCE;
-        if (score >= Config.SCORE_BREAKPOINTS[2]) {
+        if (score >= Config.SCORE_BREAKPOINTS[1]) {
             yellowChance = Config.LATE_BLACK_TO_YELLOW_CHANCE;
         }
 
