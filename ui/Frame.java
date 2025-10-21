@@ -5,13 +5,15 @@ import java.awt.event.ActionEvent;
 import javax.swing.*;
 import logic.GameLoop;
 import logic.InputBuffer;
-import logic.StateManager;
+import logic.StateManager;  
 
 public class Frame extends JFrame {
     private InputBuffer inputBuffer;
     private Panel panelMain;
     private StateManager stateManager;
     private GameLoop gameLoop;
+    private PanelPause pauseMenu;
+    private JPanel mainPanelContainer;
 
     /*
      * Create a frame with default parameters.
@@ -27,6 +29,8 @@ public class Frame extends JFrame {
         this.stateManager = new StateManager(inputBuffer);
         this.panelMain = new Panel(inputBuffer, stateManager);
         this.gameLoop = new GameLoop(panelMain, stateManager);
+        this.pauseMenu = new PanelPause();
+        this.mainPanelContainer = new JPanel();
     }
 
     /*
@@ -68,6 +72,7 @@ public class Frame extends JFrame {
             System.out.println("Something");
         });
 
+        /*
         // Set the layout of panelBot
         JPanel panelBot = new JPanel();
         panelBot.setPreferredSize(new Dimension(605, 100));
@@ -81,16 +86,31 @@ public class Frame extends JFrame {
         panelNextaApple.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         panelNextaApple.setBackground(Color.gray);
         panelNextaApple.setLayout(new BorderLayout());
+        
 
         // Set nextApple
         JLabel nextApple = new JLabel("Next Apple:");
         panelNextaApple.add(nextApple, BorderLayout.WEST);
         panelBot.add(panelNextaApple, BorderLayout.WEST);
+        */
+
+        // Set the mainPanelContainer
+        mainPanelContainer.setLayout(new CardLayout());
+        mainPanelContainer.setPreferredSize(new Dimension(605, 605));
+        mainPanelContainer.setBackground(new Color(147, 109, 62));
 
         // Adding all of the panels to the frame
         add(panelTop, BorderLayout.NORTH);
+        /*
         add(panelBot, BorderLayout.SOUTH);
-        add(panelMain, BorderLayout.CENTER);
+        */
+        add(mainPanelContainer, BorderLayout.CENTER);
+
+        mainPanelContainer.add(panelMain, "panelMain");
+        mainPanelContainer.add(pauseMenu, "pauseMenu");
+
+        CardLayout e = (CardLayout) (mainPanelContainer.getLayout());
+        e.show(mainPanelContainer, "pauseMenu");
 
         // Display the frame.
         pack();
