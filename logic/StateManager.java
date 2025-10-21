@@ -9,6 +9,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 import utils.Config;
 import utils.Direction;
@@ -45,7 +46,7 @@ public class StateManager {
 
         // Add the initial apples.
         for (Point position : Config.INITIAL_APPLE_POSITIONS) {
-            this.apples.add(new BlackApple(position));
+            this.apples.add(new RedApple(position));
         }
     }
 
@@ -99,8 +100,9 @@ public class StateManager {
             apple.eat(this);
         }
 
-        // Update the apples.
+        // Update and spawn apples.
         updateApples();
+        spawnApples();
     }
 
     /* ------------------ Getters ----------------- */
@@ -185,20 +187,130 @@ public class StateManager {
         return newPosition;
     }
 
+    /**
+     * Spawns apples based on the score and the amount of available spaces on the
+     * board.
+     * 
+     * The target apple amounts are specified in each if statement, and the
+     * breakpoints are specified in the config.
+     */
     private void spawnApples() {
-        if (score >= Config.SCORE_BREAKPOINTS[2]) {
-            // Aim to have 3 apples on the board:
-            // - 1 Black,
-            // - 1 Red and 1 Yellow
-            // - OR 2 Red
+        int availableSpaces = (Config.GRID_WIDTH * Config.GRID_HEIGHT) - snake.size();
+        boolean hasAvailableSpaces = availableSpaces >= Config.APPLE_AVAILABLE_SPACES;
+
+        if (!hasAvailableSpaces) {
+            // Aim to have 2 apples on the board:
+            // - 2 Red
+
+            int redCount = 0;
+
+            for (Apple apple : apples) {
+                if (apple instanceof RedApple) {
+                    redCount += 1;
+                }
+            }
+
+            while (apples.size() < 2) {
+                if (redCount < 2) {
+                    apples.add(new RedApple(this));
+                    redCount += 1;
+                    continue;
+                }
+            }
 
         } else if (score >= Config.SCORE_BREAKPOINTS[1]) {
             // Aim to have 2 apples on the board:
-            // - 1 Red
             // - 1 Black
+            // - 1 Red/Yellow (50/50 chance of either)
+            // If the amount of available spaces is insufficient, spawn 2 red/yellow apples
+            // instead.
+
+            boolean hasBlack = false;
+            boolean hasRedOrYellow = false;
+
+            for (Apple apple : apples) {
+                if (apple instanceof BlackApple) {
+                    hasBlack = true;
+                } else if (apple instanceof RedApple || apple instanceof YellowApple) {
+                    hasRedOrYellow = true;
+                }
+            }
+
+            while (apples.size() < 2) {
+                if (!hasBlack) {
+                    apples.add(new BlackApple(this));
+                    hasBlack = true;
+                    continue;
+                }
+
+                if (!hasRedOrYellow) {
+                    Random random = new Random(System.currentTimeMillis() + 14574682L);
+                    float randomChoice = random.nextFloat();
+
+                    Apple newApple = null;
+                    if (randomChoice <= 0.5f) {
+                        newApple = new RedApple(this);
+                    } else {
+                        newApple = new YellowApple(this);
+                    }
+
+                    apples.add(newApple);
+
+                    if (hasAvailableSpaces) {
+                        hasRedOrYellow = true;
+                    }
+                    continue;
+                }
+            }
 
         } else if (score >= Config.SCORE_BREAKPOINTS[0]) {
-            //
+            // Aim to have 2 apples on the board:
+            // - 1 Black
+            // - 1 Red
+
+            boolean hasBlack = false;
+            boolean hasRed = false;
+
+            for (Apple apple : apples) {
+                if (apple instanceof BlackApple) {
+                    hasBlack = true;
+                } else if (apple instanceof RedApple) {
+                    hasRed = true;
+                }
+            }
+
+            while (apples.size() < 2) {
+                if (!hasBlack) {
+                    apples.add(new BlackApple(this));
+                    hasBlack = true;
+                    continue;
+                }
+
+                if (!hasRed) {
+                    apples.add(new RedApple(this));
+                    hasRed = true;
+                    continue;
+                }
+            }
+        } else {
+            // Aim to have 1 apple on the board:
+            // - 1 Red
+
+            boolean hasRed = false;
+
+            for (Apple apple : apples) {
+                if (apple instanceof RedApple) {
+                    hasRed = true;
+                }
+            }
+
+            while (apples.size() < 1) {
+                if (!hasRed) {
+                    apples.add(new RedApple(this));
+                    hasRed = true;
+                    continue;
+                }
+            }
         }
     }
 
