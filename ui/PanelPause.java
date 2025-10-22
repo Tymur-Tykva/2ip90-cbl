@@ -2,69 +2,62 @@ package ui;
 
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 
 public class PanelPause extends JPanel {
 
+    /*
+     * Set the constructor of PanelPause
+     */
     public PanelPause() {
         setPreferredSize(new Dimension(605, 605));
         setBackground(new Color(147, 109, 62));
         setLayout(new BorderLayout());
-        setBorder(BorderFactory.createEmptyBorder(100, 20, 100, 20));
+        setBorder(BorderFactory.createEmptyBorder(170, 0, 150, 0));
 
-        // Initialize the font for buttons
-        Font fontText = new Font("Serif", Font.BOLD, 30);
+        // Set the buttonPanel
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        buttonPanel.setBackground(null);
+
+        // Set the textPanel
+        JPanel textPanel = new JPanel();
+        textPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        textPanel.setBackground(null);
+
+        // Initialize the font for text
+        Font fontText = new Font("Serif", Font.BOLD, 80);
         Color colorText = new Color(255, 253, 208);
 
         // Set Pause Text
         JLabel pause = new JLabel("Paused");
-        add(pause, BorderLayout.NORTH);
+        // add(pause, BorderLayout.NORTH);
         pause.setFont(fontText);
         pause.setForeground(colorText);
-
-        // Intiliaze the customs for the buttons
-        Font fontButton = new Font("Serif", Font.BOLD, 25);
-        Color colorButton = new Color(200, 163, 117);
-        Color colorTextButton = new Color(101, 67, 33);
-        LineBorder thickBorder = new LineBorder(new Color(101, 67, 33), 3, false);
-        EmptyBorder paddingBorder = new EmptyBorder(7, 10, 7, 10);
-        CompoundBorder compoundBorder = new CompoundBorder(thickBorder, paddingBorder);
 
         /*
          * Set the buttons
          */
+        // Initialize continue button
+        PauseMenuButton continueButton = new PauseMenuButton("Continue");
+        // add(continueButton);
 
-        // Set continue button
-        JButton continueButton = new JButton("Continue");
-        add(continueButton);
-        continueButton.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        continueButton.setPreferredSize(new Dimension(120, 50));
-        continueButton.setFont(fontButton);
-        continueButton.setForeground(colorTextButton);
-        continueButton.setBackground(colorButton);
-        continueButton.setBorder(compoundBorder);
+        // Initialize Retry button
+        PauseMenuButton retryButton = new PauseMenuButton("Retry");
 
-        // Set Retry button
-        JButton retryButton = new JButton("Retry");
-        add(retryButton);
-        retryButton.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        retryButton.setPreferredSize(new Dimension(120, 50));
-        retryButton.setFont(fontButton);
-        retryButton.setForeground(colorTextButton);
-        retryButton.setBackground(colorButton);
-        retryButton.setBorder(compoundBorder);
+        // Initialize continue button
+        PauseMenuButton exitButton = new PauseMenuButton("Exit");
 
-        // Set continue button
-        JButton exitButton = new JButton("Exit");
-        add(exitButton);
-        exitButton.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        exitButton.setPreferredSize(new Dimension(120, 50));
-        exitButton.setFont(fontButton);
-        exitButton.setForeground(colorTextButton);
-        exitButton.setBackground(colorButton);
-        exitButton.setBorder(compoundBorder);
+        // Add the "Paused" text to the textPanel
+        textPanel.add(pause);
+
+        // Add the buttons to the buttonPanel
+        buttonPanel.add(continueButton);
+        buttonPanel.add(retryButton);
+        buttonPanel.add(exitButton);
+
+        // Add the buttonPanel to the PauseMenu
+        add(buttonPanel, BorderLayout.SOUTH);
+        add(textPanel, BorderLayout.NORTH);
 
     }
 }
