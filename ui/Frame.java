@@ -5,13 +5,15 @@ import java.awt.event.ActionEvent;
 import javax.swing.*;
 import logic.GameLoop;
 import logic.InputBuffer;
-import logic.StateManager;
+import logic.StateManager;  
 
 public class Frame extends JFrame {
     private InputBuffer inputBuffer;
     private Panel panelMain;
     private StateManager stateManager;
     private GameLoop gameLoop;
+    private PanelPause pauseMenu;
+    private JPanel mainPanelContainer;
 
     /*
      * Create a frame with default parameters.
@@ -27,7 +29,10 @@ public class Frame extends JFrame {
         this.stateManager = new StateManager(inputBuffer);
         this.panelMain = new Panel(inputBuffer, stateManager);
         this.gameLoop = new GameLoop(panelMain, stateManager);
+        this.pauseMenu = new PanelPause();
+        this.mainPanelContainer = new JPanel();
     }
+
 
     /*
      * Initialise the UI layout.
@@ -47,7 +52,7 @@ public class Frame extends JFrame {
         JPanel panelScore = new JPanel();
         panelScore.setPreferredSize(new Dimension(80, 30));
         panelScore.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        panelScore.setBackground(Color.gray);
+        panelScore.setBackground(new Color(200, 163, 117));
         panelScore.setLayout(new BorderLayout());
 
         // Set score
@@ -56,6 +61,9 @@ public class Frame extends JFrame {
         Integer a = 0;
         JLabel numberScore = new JLabel(a.toString());
         panelScore.add(numberScore, BorderLayout.EAST);
+        Color colorBrown = new Color(101, 67, 33);
+        score.setForeground(colorBrown);
+        numberScore.setForeground(colorBrown);
 
         panelTop.add(panelScore, BorderLayout.WEST);
 
@@ -68,29 +76,24 @@ public class Frame extends JFrame {
             System.out.println("Something");
         });
 
-        // Set the layout of panelBot
-        JPanel panelBot = new JPanel();
-        panelBot.setPreferredSize(new Dimension(605, 100));
-        panelBot.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        panelBot.setBackground(new Color(147, 109, 62));
-        panelBot.setLayout(new BorderLayout());
-
-        // Set the layout of panelNextApple
-        JPanel panelNextaApple = new JPanel();
-        panelNextaApple.setPreferredSize(new Dimension(80, 30));
-        panelNextaApple.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        panelNextaApple.setBackground(Color.gray);
-        panelNextaApple.setLayout(new BorderLayout());
-
-        // Set nextApple
-        JLabel nextApple = new JLabel("Next Apple:");
-        panelNextaApple.add(nextApple, BorderLayout.WEST);
-        panelBot.add(panelNextaApple, BorderLayout.WEST);
+        // Set the mainPanelContainer
+        mainPanelContainer.setLayout(new CardLayout());
+        mainPanelContainer.setPreferredSize(new Dimension(605, 605));
+        mainPanelContainer.setBackground(new Color(147, 109, 62));
 
         // Adding all of the panels to the frame
         add(panelTop, BorderLayout.NORTH);
+        
+        /*
         add(panelBot, BorderLayout.SOUTH);
-        add(panelMain, BorderLayout.CENTER);
+        */
+        add(mainPanelContainer, BorderLayout.CENTER);
+
+        mainPanelContainer.add(panelMain, "panelMain");
+        mainPanelContainer.add(pauseMenu, "pauseMenu");
+
+        CardLayout e = (CardLayout) (mainPanelContainer.getLayout());
+        e.show(mainPanelContainer, "pauseMenu");
 
         // Display the frame.
         pack();
