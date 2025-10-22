@@ -7,14 +7,14 @@ import logic.GameLoop;
 import logic.InputBuffer;
 import logic.StateManager;
 
-public class Frame extends JFrame {
+public class Frame extends JFrame implements PanelPauseListener {
     private InputBuffer inputBuffer;
     private Panel panelMain;
     private StateManager stateManager;
     private GameLoop gameLoop;
     private PanelPause pauseMenu;
     private JPanel mainPanelContainer;
-    private CardLayout cardLayout = new CardLayout();
+    private CardLayout cardLayout;
     private boolean isPanelMainVis = true;
 
     /*
@@ -31,8 +31,9 @@ public class Frame extends JFrame {
         this.stateManager = new StateManager(inputBuffer);
         this.panelMain = new Panel(inputBuffer, stateManager);
         this.gameLoop = new GameLoop(panelMain, stateManager);
-        this.pauseMenu = new PanelPause();
+        this.pauseMenu = new PanelPause(this);
         this.mainPanelContainer = new JPanel();
+        this.cardLayout = new CardLayout();
 
     }
 
@@ -81,6 +82,11 @@ public class Frame extends JFrame {
                 this.cardLayout.show(mainPanelContainer, "panelMain");
             }
             isPanelMainVis = !isPanelMainVis;
+
+
+            //TODO: Tymur must add the stop game method and start game method
+
+
         });
 
         // Set the mainPanelContainer
@@ -104,5 +110,28 @@ public class Frame extends JFrame {
         setVisible(true);
 
         gameLoop.start();
+    }
+
+
+    // override the onContinueClicked, so it switches from pause menu to main panel
+    @Override
+    public void onContinueClicked() {
+        cardLayout.show(mainPanelContainer, "panelMain");
+        this.isPanelMainVis = true;
+    }
+
+    // override the onRetryClicked, so it restarts the game
+    @Override
+    public void onRetryClicked() {
+        
+        //TODO: Tymur must add the restart the game method
+
+    }
+
+    // override the onExitClicked, so it closes the game
+    @Override
+    public void onExitClicked() {
+        System.exit(0);
+
     }
 }
