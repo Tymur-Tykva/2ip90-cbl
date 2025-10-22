@@ -33,6 +33,7 @@ public class Frame extends JFrame {
         this.mainPanelContainer = new JPanel();
     }
 
+
     /*
      * Initialise the UI layout.
      */
@@ -51,7 +52,7 @@ public class Frame extends JFrame {
         JPanel panelScore = new JPanel();
         panelScore.setPreferredSize(new Dimension(80, 30));
         panelScore.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        panelScore.setBackground(Color.gray);
+        panelScore.setBackground(new Color(200, 163, 117));
         panelScore.setLayout(new BorderLayout());
 
         // Set score
@@ -60,6 +61,9 @@ public class Frame extends JFrame {
         Integer a = 0;
         JLabel numberScore = new JLabel(a.toString());
         panelScore.add(numberScore, BorderLayout.EAST);
+        Color colorBrown = new Color(101, 67, 33);
+        score.setForeground(colorBrown);
+        numberScore.setForeground(colorBrown);
 
         panelTop.add(panelScore, BorderLayout.WEST);
 
@@ -72,28 +76,6 @@ public class Frame extends JFrame {
             System.out.println("Something");
         });
 
-        /*
-        // Set the layout of panelBot
-        JPanel panelBot = new JPanel();
-        panelBot.setPreferredSize(new Dimension(605, 100));
-        panelBot.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        panelBot.setBackground(new Color(147, 109, 62));
-        panelBot.setLayout(new BorderLayout());
-
-        // Set the layout of panelNextApple
-        JPanel panelNextaApple = new JPanel();
-        panelNextaApple.setPreferredSize(new Dimension(80, 30));
-        panelNextaApple.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        panelNextaApple.setBackground(Color.gray);
-        panelNextaApple.setLayout(new BorderLayout());
-        
-
-        // Set nextApple
-        JLabel nextApple = new JLabel("Next Apple:");
-        panelNextaApple.add(nextApple, BorderLayout.WEST);
-        panelBot.add(panelNextaApple, BorderLayout.WEST);
-        */
-
         // Set the mainPanelContainer
         mainPanelContainer.setLayout(new CardLayout());
         mainPanelContainer.setPreferredSize(new Dimension(605, 605));
@@ -101,6 +83,7 @@ public class Frame extends JFrame {
 
         // Adding all of the panels to the frame
         add(panelTop, BorderLayout.NORTH);
+        
         /*
         add(panelBot, BorderLayout.SOUTH);
         */
