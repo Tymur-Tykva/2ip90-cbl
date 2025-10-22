@@ -59,18 +59,19 @@ public class StateManager {
             return;
         }
 
-        System.out.println("=== Update ===");
-        System.out.println("snake: ");
-        for (Point point : snake) {
-            System.out.println("- " + point.toString());
-        }
-        System.out.println();
-        System.out.println("apples: ");
-        for (Apple apple : apples) {
-            System.out.println("- " + apple.getClass().getName() + "@" + apple.getPosition().toString());
-        }
-        System.out.println();
-        System.out.println("snakeDirection: " + snakeDirection);
+        // System.out.println("=== Update ===");
+        // System.out.println("snake: ");
+        // for (Point point : snake) {
+        // System.out.println("- " + point.toString());
+        // }
+        // System.out.println();
+        // System.out.println("apples: ");
+        // for (Apple apple : apples) {
+        // System.out.println("- " + apple.getClass().getName() + "@" +
+        // apple.getPosition().toString());
+        // }
+        // System.out.println();
+        // System.out.println("snakeDirection: " + snakeDirection);
 
         // Update stored snake direction.
         Direction inputDirection = inputBuffer.getDirection();
@@ -99,7 +100,7 @@ public class StateManager {
         Apple apple = isAppleColliding();
 
         if (apple != null) {
-            System.out.println("Apple collision: " + apple.getPosition());
+            // System.out.println("Apple collision: " + apple.getPosition());
             apple.eat(this);
         }
 
@@ -128,17 +129,18 @@ public class StateManager {
     public boolean isGameOver() {
         if (gameOver) {
             System.out.println("=== Game over ===");
-            System.out.println("score: " + score);
-            System.out.println("snake: ");
-            for (Point point : snake) {
-                System.out.println("- " + point.toString());
-            }
-            System.out.println();
-            System.out.println("apples: ");
-            for (Apple apple : apples) {
-                System.out.println("- " + apple.getClass().getName() + "@" + apple.getPosition().toString());
-            }
-            System.out.println();
+            // System.out.println("score: " + score);
+            // System.out.println("snake: ");
+            // for (Point point : snake) {
+            // System.out.println("- " + point.toString());
+            // }
+            // System.out.println();
+            // System.out.println("apples: ");
+            // for (Apple apple : apples) {
+            // System.out.println("- " + apple.getClass().getName() + "@" +
+            // apple.getPosition().toString());
+            // }
+            // System.out.println();
         }
 
         return gameOver;
@@ -329,12 +331,12 @@ public class StateManager {
         boolean snakeSelfColliding = isSnakeSelfColliding();
         boolean inBounds = isInBounds(snake.peekFirst());
 
-        if (snakeSelfColliding) {
-            System.out.println("FC: Snake self collision");
-        }
-        if (!inBounds) {
-            System.out.println("FC: Out of bounds");
-        }
+        // if (snakeSelfColliding) {
+        // System.out.println("FC: Snake self collision");
+        // }
+        // if (!inBounds) {
+        // System.out.println("FC: Out of bounds");
+        // }
 
         return snakeSelfColliding || !inBounds;
     }

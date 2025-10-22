@@ -34,8 +34,6 @@ public class YellowApple extends Apple {
     @Override
     public void eat(StateManager stateManager) {
         // Flip the snake: head becomes the tail, and vice versa.
-        System.out.println("== Yellow Apple ==");
-
         Deque<Point> snake = new LinkedList<>(stateManager.getSnake());
         Deque<Point> newSnake = new LinkedList<Point>();
 
