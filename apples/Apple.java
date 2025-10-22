@@ -46,6 +46,12 @@ public class Apple {
             }
         }
 
+        // Find all spaces not containing apples.
+        for (Apple apple : stateManager.getApples()) {
+            Point point = apple.getPosition();
+            availableSpaces.remove(point);
+        }
+
         // If there are insufficient availale spaces as specified by the config, and
         // strict is true, return.
 
@@ -67,8 +73,7 @@ public class Apple {
 
         // Choose a random available space. Seed is the current system time, salted with
         // a random number.
-        Random random = new Random(System.currentTimeMillis() + 5129875L);
-        int positionIndex = random.nextInt(availableSpaces.size());
+        int positionIndex = stateManager.getRandom().nextInt(availableSpaces.size());
         this.position = (Point) availableSpaces.toArray()[positionIndex];
     }
 
@@ -101,6 +106,7 @@ public class Apple {
         expiresIn -= 1;
 
         if (expiresIn == 0) {
+            expiresIn = -1;
             onExpire(stateManager);
         }
     }

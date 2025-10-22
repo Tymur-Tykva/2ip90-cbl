@@ -45,11 +45,10 @@ public class Panel extends JPanel {
                 }
 
             }
-
         }
 
         // set a 2d array list for containing apples
-        ArrayList<Apple> apples = stateManager.getApples();
+        ArrayList<Apple> apples = new ArrayList<>(stateManager.getApples());
         int sideApple = 45;
         int paddingA = 5;
 
@@ -62,7 +61,7 @@ public class Panel extends JPanel {
         }
 
         // Initialize deque for the snake's body
-        Deque<Point> snake = stateManager.getSnake();
+        Deque<Point> snake = new LinkedList<>(stateManager.getSnake());
         int paddingS = 14;
         int sideSnake = 28;
 

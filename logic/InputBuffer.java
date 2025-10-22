@@ -11,11 +11,13 @@ public class InputBuffer {
     private volatile Queue<Direction> directionBuffer; // Buffer of directions.
     private volatile boolean paused; // Indicate if the pause button was pressed.
 
+    /* ---------------- Constructor --------------- */
     public InputBuffer() {
         this.directionBuffer = new LinkedList<>();
         this.paused = false;
     }
 
+    /* ------------------ Public ------------------ */
     public void handleEvent(KeyEvent keyEvent) {
         switch (keyEvent.getKeyCode()) {
             // Direction keys.
@@ -42,6 +44,10 @@ public class InputBuffer {
         }
     }
 
+    public void clearDirectionBuffer() {
+        this.directionBuffer.clear();
+    }
+
     public Direction peekDirection() {
         return directionBuffer.peek();
     }
@@ -54,6 +60,7 @@ public class InputBuffer {
         return paused;
     }
 
+    /* ------------------ Private ----------------- */
     private void addDirection(Direction direction) {
         // Do not queue inputs if the game is paused.
         // if (this.paused) {

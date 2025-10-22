@@ -25,7 +25,7 @@ public class Config {
     // Amount of available spaces required for apples in 'strict' mode to spawn.
     public static final int APPLE_AVAILABLE_SPACES = 8;
     // Score 'breakpoints', used for apple spawning rules.
-    public static final int[] SCORE_BREAKPOINTS = { 3, 6 };
+    public static final int[] SCORE_BREAKPOINTS = { 6, 12 };
     // Score breakpoint at which the odds of a black apple expiring into a yellow
     // increase.
     public static final float BLACK_TO_YELLOW_LATE_BREAKPOINT = Config.SCORE_BREAKPOINTS[1];

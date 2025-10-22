@@ -17,18 +17,21 @@ import utils.Direction;
 public class StateManager {
     private InputBuffer inputBuffer;
 
-    private Deque<Point> snake; // Front of the queue is the head.
-    private ArrayList<Apple> apples;
+    private volatile Deque<Point> snake; // Front of the queue is the head.
+    private volatile ArrayList<Apple> apples;
 
-    private Direction snakeDirection = Direction.R;
+    private volatile Direction snakeDirection = Direction.R;
     private boolean growSnake = false; // When true, snake will grow next update.
     private int score = 0;
 
     private boolean gameOver = false;
 
+    private Random random;
+
     /* ---------------- Constructor --------------- */
     public StateManager(InputBuffer inputBuffer) {
         this.inputBuffer = inputBuffer;
+        this.random = new Random(System.currentTimeMillis() + 5129875L);
         this.reset();
     }
 
@@ -56,18 +59,18 @@ public class StateManager {
             return;
         }
 
-        // System.out.println("=== Update ===");
-        // System.out.print("snake: ");
-        // for (Point point : snake) {
-        // System.out.print(point + " ");
-        // }
-        // System.out.println();
-        // System.out.print("apples: ");
-        // for (Apple apple : apples) {
-        // System.out.print(apple.getPosition() + " ");
-        // }
-        // System.out.println();
-        // System.out.println("growSnake: " + growSnake);
+        System.out.println("=== Update ===");
+        System.out.println("snake: ");
+        for (Point point : snake) {
+            System.out.println("- " + point.toString());
+        }
+        System.out.println();
+        System.out.println("apples: ");
+        for (Apple apple : apples) {
+            System.out.println("- " + apple.getClass().getName() + "@" + apple.getPosition().toString());
+        }
+        System.out.println();
+        System.out.println("snakeDirection: " + snakeDirection);
 
         // Update stored snake direction.
         Direction inputDirection = inputBuffer.getDirection();
@@ -89,7 +92,6 @@ public class StateManager {
 
         // Check for final collisions.
         if (isFinalColliding()) {
-            System.out.println("Game over");
             gameOver = true;
         }
 
@@ -106,6 +108,10 @@ public class StateManager {
         spawnApples();
     }
 
+    public void clearInputDirectionBuffer() {
+        inputBuffer.clearDirectionBuffer();
+    }
+
     /* ------------------ Getters ----------------- */
     public Deque<Point> getSnake() {
         return snake;
@@ -120,11 +126,30 @@ public class StateManager {
     }
 
     public boolean isGameOver() {
+        if (gameOver) {
+            System.out.println("=== Game over ===");
+            System.out.println("score: " + score);
+            System.out.println("snake: ");
+            for (Point point : snake) {
+                System.out.println("- " + point.toString());
+            }
+            System.out.println();
+            System.out.println("apples: ");
+            for (Apple apple : apples) {
+                System.out.println("- " + apple.getClass().getName() + "@" + apple.getPosition().toString());
+            }
+            System.out.println();
+        }
+
         return gameOver;
     }
 
     public int getScore() {
         return score;
+    }
+
+    public Random getRandom() {
+        return random;
     }
 
     /* ------------------ Setters ----------------- */
@@ -285,7 +310,7 @@ public class StateManager {
             // - 1 Red
 
             if (apples.size() == 0) {
-                apples.add(new RedApple(this));
+                apples.add(new YellowApple(this));
             }
         }
     }
@@ -301,7 +326,17 @@ public class StateManager {
     }
 
     private boolean isFinalColliding() {
-        return isSnakeSelfColliding() || !isInBounds(snake.peekFirst());
+        boolean snakeSelfColliding = isSnakeSelfColliding();
+        boolean inBounds = isInBounds(snake.peekFirst());
+
+        if (snakeSelfColliding) {
+            System.out.println("FC: Snake self collision");
+        }
+        if (!inBounds) {
+            System.out.println("FC: Out of bounds");
+        }
+
+        return snakeSelfColliding || !inBounds;
     }
 
     private Apple isAppleColliding() {

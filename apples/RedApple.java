@@ -29,6 +29,7 @@ public class RedApple extends Apple {
     /* ------------------ Public ------------------ */
     @Override
     public void eat(StateManager stateManager) {
+        // Grow the snake and remove the apple.
         stateManager.growSnake();
         stateManager.addScore();
         stateManager.getApples().remove(this);

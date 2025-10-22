@@ -34,19 +34,28 @@ public class YellowApple extends Apple {
     @Override
     public void eat(StateManager stateManager) {
         // Flip the snake: head becomes the tail, and vice versa.
-        Deque<Point> snake = stateManager.getSnake();
-        Deque<Point> newSnake = new LinkedList<Point>();
-        Direction newDirection = stateManager.getSnakeDirection().getOpposite();
+        System.out.println("== Yellow Apple ==");
 
-        newSnake.addLast(snake.peekFirst());
+        Deque<Point> snake = new LinkedList<>(stateManager.getSnake());
+        Deque<Point> newSnake = new LinkedList<Point>();
 
         for (Point point : snake) {
             newSnake.addFirst(point);
         }
 
+        // Get the last two points of the old snake (the head and second-to-last of
+        // new) to calculate the new direction of movement.
+        Point oldTail = snake.pollLast();
+        Point oldSecondLast = snake.pollLast();
+
+        Direction newDirection = Direction.betweenTwoPoints(oldTail, oldSecondLast);
         stateManager.setSnake(newSnake, newDirection);
 
-        // Increment the score and remove the apple.
+        // Clear the input direction buffer.
+        stateManager.clearInputDirectionBuffer();
+
+        // Grow the snake and remove the apple.
+        stateManager.growSnake();
         stateManager.addScore();
         stateManager.getApples().remove(this);
     }
