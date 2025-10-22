@@ -1,6 +1,7 @@
 package ui;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import javax.swing.*;
 
 public class PanelPause extends JPanel {
@@ -8,7 +9,7 @@ public class PanelPause extends JPanel {
     /*
      * Set the constructor of PanelPause
      */
-    public PanelPause() {
+    public PanelPause(PanelPauseListener listener) {
         setPreferredSize(new Dimension(605, 605));
         setBackground(new Color(147, 109, 62));
         setLayout(new BorderLayout());
@@ -39,13 +40,27 @@ public class PanelPause extends JPanel {
          */
         // Initialize continue button
         PauseMenuButton continueButton = new PauseMenuButton("Continue");
-        // add(continueButton);
+        // Set the continue button listener
+        continueButton.addActionListener((ActionEvent e) -> {
+            // When clicked, call the method on the listener object
+            listener.onContinueClicked();
+        });
 
         // Initialize Retry button
         PauseMenuButton retryButton = new PauseMenuButton("Retry");
+        // Set the retry button listener
+        retryButton.addActionListener((ActionEvent e) -> {
+           
+            listener.onRetryClicked();
+        });
 
         // Initialize continue button
         PauseMenuButton exitButton = new PauseMenuButton("Exit");
+        // Set the exit button listener
+        exitButton.addActionListener((ActionEvent e) -> {
+            // When clicked, call the method on the listener object
+            listener.onExitClicked();
+        });
 
         // Add the "Paused" text to the textPanel
         textPanel.add(pause);
