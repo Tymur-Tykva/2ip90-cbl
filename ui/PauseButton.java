@@ -15,7 +15,8 @@ public class PauseButton extends JButton {
         super(text);
         super.setSize(new Dimension(width, height));
         super.setBackground(new Color(200, 163, 117));
-
+        
+        
     }
 
     @Override
@@ -24,7 +25,7 @@ public class PauseButton extends JButton {
         int heightButton = this.getHeight();
         Graphics2D g2D = (Graphics2D) g;
         super.paintComponent(g2D);
-        g2D.setColor(new Color(147, 109, 62));
+        g2D.setColor(new Color(101, 67, 33));
         g2D.fillRect(widthButton / 3, 5, 3, heightButton - 10);
         g2D.fillRect(2 * (widthButton / 3) - 3, 5, 3, heightButton - 10);
     }
