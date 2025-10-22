@@ -17,8 +17,6 @@ public class InputBuffer {
     }
 
     public void handleEvent(KeyEvent keyEvent) {
-        System.out.println("Key event:" + keyEvent.getKeyCode());
-
         switch (keyEvent.getKeyCode()) {
             // Direction keys.
             case KeyEvent.VK_UP:

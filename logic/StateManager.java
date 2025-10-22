@@ -9,7 +9,6 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
 import utils.Config;
@@ -52,6 +51,7 @@ public class StateManager {
     }
 
     public void update() {
+        // Do not update if game paused
         if (inputBuffer.isPaused()) {
             return;
         }
@@ -71,7 +71,7 @@ public class StateManager {
 
         // Update stored snake direction.
         Direction inputDirection = inputBuffer.getDirection();
-        if (inputDirection != null) {
+        if (inputDirection != null && snakeDirection.getOpposite() != inputDirection) {
             snakeDirection = inputDirection;
         }
 
