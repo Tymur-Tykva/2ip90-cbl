@@ -39,13 +39,16 @@ public class PanelPause extends JPanel {
          */
         // Initialize continue button
         PauseMenuButton continueButton = new PauseMenuButton("Continue");
-        // add(continueButton);
+        // Set the continue button listener
+        
 
         // Initialize Retry button
         PauseMenuButton retryButton = new PauseMenuButton("Retry");
+       
 
         // Initialize continue button
         PauseMenuButton exitButton = new PauseMenuButton("Exit");
+       
 
         // Add the "Paused" text to the textPanel
         textPanel.add(pause);

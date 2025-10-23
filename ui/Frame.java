@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.*;
 import logic.GameLoop;
 import logic.InputBuffer;
-import logic.StateManager;  
+import logic.StateManager;
 
 public class Frame extends JFrame {
     private InputBuffer inputBuffer;
@@ -14,6 +14,8 @@ public class Frame extends JFrame {
     private GameLoop gameLoop;
     private PanelPause pauseMenu;
     private JPanel mainPanelContainer;
+    private CardLayout cardLayout;
+    private boolean isPanelMainVis = true;
 
     /*
      * Create a frame with default parameters.
@@ -31,8 +33,9 @@ public class Frame extends JFrame {
         this.gameLoop = new GameLoop(panelMain, stateManager);
         this.pauseMenu = new PanelPause();
         this.mainPanelContainer = new JPanel();
-    }
+        this.cardLayout = new CardLayout();
 
+    }
 
     /*
      * Initialise the UI layout.
@@ -70,30 +73,37 @@ public class Frame extends JFrame {
         // Set pause button
         PauseButton pause = new PauseButton("");
         panelTop.add(pause, BorderLayout.EAST);
-        pause.addActionListener((ActionEvent e) -> {
 
-            // TODO: IMPLEMENT PAUSE PANEL
-            System.out.println("Something");
+        // Set the pause button listener
+        pause.addActionListener((ActionEvent e) -> {
+            if (isPanelMainVis) {
+                this.cardLayout.show(mainPanelContainer, "pauseMenu");
+            } else {
+                this.cardLayout.show(mainPanelContainer, "panelMain");
+            }
+            isPanelMainVis = !isPanelMainVis;
+
+
+            //TODO: Tymur must add the stop game method and start game method
+
+
         });
 
         // Set the mainPanelContainer
-        mainPanelContainer.setLayout(new CardLayout());
+        mainPanelContainer.setLayout(this.cardLayout);
         mainPanelContainer.setPreferredSize(new Dimension(605, 605));
         mainPanelContainer.setBackground(new Color(147, 109, 62));
 
         // Adding all of the panels to the frame
         add(panelTop, BorderLayout.NORTH);
-        
+
         /*
-        add(panelBot, BorderLayout.SOUTH);
-        */
+         * add(panelBot, BorderLayout.SOUTH);
+         */
         add(mainPanelContainer, BorderLayout.CENTER);
 
         mainPanelContainer.add(panelMain, "panelMain");
         mainPanelContainer.add(pauseMenu, "pauseMenu");
-
-        CardLayout e = (CardLayout) (mainPanelContainer.getLayout());
-        e.show(mainPanelContainer, "pauseMenu");
 
         // Display the frame.
         pack();
@@ -102,4 +112,6 @@ public class Frame extends JFrame {
         panelMain.requestFocus();
         gameLoop.start();
     }
+
+    
 }
