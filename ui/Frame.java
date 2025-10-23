@@ -109,6 +109,7 @@ public class Frame extends JFrame {
         pack();
         setVisible(true);
 
+        panelMain.requestFocus();
         gameLoop.start();
     }
 

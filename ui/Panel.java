@@ -2,6 +2,8 @@ package ui;
 
 import apples.Apple;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.*;
 import javax.swing.*;
 import logic.InputBuffer;
@@ -16,6 +18,14 @@ public class Panel extends JPanel {
         this.stateManager = stateManager;
         setPreferredSize(new Dimension(605, 605));
 
+        setFocusable(true);
+
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                inputBuffer.handleEvent(e);
+            }
+        });
     }
 
     public void paint(Graphics g) {
@@ -35,19 +45,13 @@ public class Panel extends JPanel {
                 }
 
             }
-
         }
 
         // set a 2d array list for containing apples
-        ArrayList<Apple> apples = stateManager.getApples();
+        ArrayList<Apple> apples = new ArrayList<>(stateManager.getApples());
         int sideApple = 45;
         int paddingA = 8;
 
-        // initialize the colors of the different apples
-        Color red = new Color(255, 59, 59);
-        Color black = new Color(64, 64, 64);
-        Color yellow = new Color(236, 255, 54);
-        ImageIcon redAppleImage = new ImageIcon("redAppleImage.png");
         // paint all of the apples from the array list
         for (Apple apple : apples) {
             Point point = apple.getPosition();
@@ -60,7 +64,7 @@ public class Panel extends JPanel {
         }
 
         // Initialize deque for the snake's body
-        Deque<Point> snake = stateManager.getSnake();
+        Deque<Point> snake = new LinkedList<>(stateManager.getSnake());
         int paddingS = 14;
         int sideSnake = 28;
 
@@ -84,6 +88,5 @@ public class Panel extends JPanel {
             }
             previousPoint = point;
         }
-
     }
 }

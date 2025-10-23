@@ -3,7 +3,7 @@ package logic;
 import ui.Panel;
 
 public class GameLoop implements Runnable {
-    private static final int FPS = 2;
+    private static final int FPS = 4;
     private static final long INTERVAL_NS = 1_000_000_000L / FPS; // this is 1 second in nanosecods
 
     private Panel panel; // Used to triger repaint().
@@ -48,13 +48,13 @@ public class GameLoop implements Runnable {
             long elapsed = currentTime - previousTime;
 
             // System.out.println("=== Loop ===");
-            // System.out.println("elapsed: " + elapsed);
 
             previousTime = currentTime;
             lag += elapsed;
 
             // Execute state updates while allowed.
             while (lag >= INTERVAL_NS) {
+                // System.out.println("Update: " + lag);
                 stateManager.update();
                 lag -= INTERVAL_NS;
             }
