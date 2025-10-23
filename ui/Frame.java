@@ -5,7 +5,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.*;
 import logic.GameLoop;
 import logic.InputBuffer;
-import logic.StateManager;  
+import logic.RetryHandler;
+import logic.StateManager;
 
 public class Frame extends JFrame {
     private InputBuffer inputBuffer;
@@ -14,6 +15,7 @@ public class Frame extends JFrame {
     private GameLoop gameLoop;
     private PanelPause pauseMenu;
     private JPanel mainPanelContainer;
+    private RetryHandler retryHandler;
 
     /*
      * Create a frame with default parameters.
@@ -25,14 +27,43 @@ public class Frame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocation(450, 100);
 
-        this.inputBuffer = new InputBuffer();
-        this.stateManager = new StateManager(inputBuffer);
-        this.panelMain = new Panel(inputBuffer, stateManager);
-        this.gameLoop = new GameLoop(panelMain, stateManager);
-        this.pauseMenu = new PanelPause();
+        // Create the container for the main panel, and init the layout (required for
+        // the GameLoop).
         this.mainPanelContainer = new JPanel();
-    }
+        mainPanelContainer.setLayout(new CardLayout());
 
+        // Create the retry handler for the pause menu and keybind.
+        // Resets the game loop and state manager; passed into UI components.
+        this.retryHandler = new RetryHandler() {
+            @Override
+            public void retry() {
+                if (gameLoop == null) {
+                    return;
+                }
+
+                System.out.println("Retrying");
+
+                // Have to create a new thread, otherwise stop() will prevent start() from
+                // running.
+                new Thread(() -> {
+                    gameLoop.stop();
+                    gameLoop.start();
+                }).start();
+            }
+        };
+
+        // Init logic components.
+        this.inputBuffer = new InputBuffer();
+        this.stateManager = new StateManager(inputBuffer, retryHandler);
+
+        // Init UI components.
+        this.pauseMenu = new PanelPause(stateManager);
+        this.panelMain = new Panel(stateManager);
+
+        // Init the game loop.
+        CardLayout cl = (CardLayout) (mainPanelContainer.getLayout());
+        this.gameLoop = new GameLoop(stateManager, cl, panelMain, pauseMenu);
+    }
 
     /*
      * Initialise the UI layout.
@@ -71,35 +102,29 @@ public class Frame extends JFrame {
         PauseButton pause = new PauseButton("");
         panelTop.add(pause, BorderLayout.EAST);
         pause.addActionListener((ActionEvent e) -> {
-
-            // TODO: IMPLEMENT PAUSE PANEL
-            System.out.println("Something");
+            inputBuffer.togglePause();
         });
 
         // Set the mainPanelContainer
-        mainPanelContainer.setLayout(new CardLayout());
         mainPanelContainer.setPreferredSize(new Dimension(605, 605));
         mainPanelContainer.setBackground(new Color(147, 109, 62));
 
         // Adding all of the panels to the frame
         add(panelTop, BorderLayout.NORTH);
-        
+
         /*
-        add(panelBot, BorderLayout.SOUTH);
-        */
+         * add(panelBot, BorderLayout.SOUTH);
+         */
         add(mainPanelContainer, BorderLayout.CENTER);
 
         mainPanelContainer.add(panelMain, "panelMain");
         mainPanelContainer.add(pauseMenu, "pauseMenu");
 
-        CardLayout e = (CardLayout) (mainPanelContainer.getLayout());
-        e.show(mainPanelContainer, "pauseMenu");
-
         // Display the frame.
         pack();
         setVisible(true);
 
-        panelMain.requestFocus();
+        // Start the gameloop.
         gameLoop.start();
     }
 }

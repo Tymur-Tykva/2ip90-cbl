@@ -1,30 +1,50 @@
 package logic;
 
+import java.awt.CardLayout;
 import ui.Panel;
+import ui.PanelPause;
 
 public class GameLoop implements Runnable {
     private static final int FPS = 4;
     private static final long INTERVAL_NS = 1_000_000_000L / FPS; // this is 1 second in nanosecods
 
+    // private JPanel mainPanelContainer;
     private Panel panel; // Used to triger repaint().
+    private PanelPause panelPause;
+    private CardLayout cl;
     private StateManager stateManager; // Used to update the game state every update.
     private Thread thread;
     private boolean running; // Used to stopo the game while loop.
 
-    public GameLoop(Panel panel, StateManager stateManager) {
+    public GameLoop(StateManager stateManager, CardLayout cl, Panel panel, PanelPause panelPause) {
+        // Get the UI components.
+        this.cl = cl;
         this.panel = panel;
+        this.panelPause = panelPause;
+
+        // Initialize the logic components.
         this.stateManager = stateManager;
         this.running = false;
     }
 
     public void start() {
-        this.running = true;
+        // Reset the state manager.
+        stateManager.reset();
+
+        // Ensure the main panel is visible and focused.
+        cl.show(panel.getParent(), "panelMain");
+        panel.requestFocus();
+
         // Create and start the thread that executes the game loop.
+        this.running = true;
+
         thread = new Thread(this);
         thread.start();
     }
 
     public void stop() {
+        // System.out.println("Stopping");
+
         // Set the running flag to false to stop the game loop and stop the thread.
         this.running = false;
         try {
@@ -61,12 +81,32 @@ public class GameLoop implements Runnable {
 
             if (stateManager.isGameOver()) {
                 // TODO: Gracefully handle game over.
+                cl.show(panel.getParent(), "panelMain");
+                panel.requestFocus();
+
                 running = false;
                 break;
             }
 
-            // Repaint the panel.
-            panel.repaint();
+            // If the pause state has changed, update the display accordingly.
+            boolean pauseChanged = stateManager.pauseChanged();
+            boolean isPaused = stateManager.isPaused();
+
+            if (pauseChanged) {
+                if (isPaused) {
+                    cl.show(panel.getParent(), "pauseMenu");
+                    panelPause.requestFocus();
+                } else {
+                    // If unpaused, display panelMain and bring focus to it.
+                    cl.show(panel.getParent(), "panelMain");
+                    panel.requestFocus();
+                }
+            }
+
+            // Repaint the panel if unpaused.
+            if (!isPaused) {
+                panel.repaint();
+            }
 
             // Sleep remaining time unless game over.
             long nextFrameTime = previousTime + INTERVAL_NS;

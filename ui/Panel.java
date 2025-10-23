@@ -7,19 +7,22 @@ import java.awt.event.KeyEvent;
 import java.util.*;
 import javax.swing.*;
 import logic.InputBuffer;
+import logic.RetryHandler;
 import logic.StateManager;
 
 public class Panel extends JPanel {
-    InputBuffer inputBuffer;
     StateManager stateManager;
+    InputBuffer inputBuffer;
+    RetryHandler retryHandler;
 
-    public Panel(InputBuffer inputBuffer, StateManager stateManager) {
-        this.inputBuffer = inputBuffer;
+    public Panel(StateManager stateManager) {
         this.stateManager = stateManager;
+        this.inputBuffer = stateManager.getInputBuffer();
+        this.retryHandler = stateManager.getRetryHandler();
+
         setPreferredSize(new Dimension(605, 605));
 
         setFocusable(true);
-
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {

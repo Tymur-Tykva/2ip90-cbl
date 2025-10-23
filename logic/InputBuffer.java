@@ -9,12 +9,14 @@ public class InputBuffer {
     private static final int MAX_BUFFER_SIZE = 4; // Prevent queueinig up too many inputs.
 
     private volatile Queue<Direction> directionBuffer; // Buffer of directions.
-    private volatile boolean paused; // Indicate if the pause button was pressed.
+    private volatile boolean togglePause; // Toggles the pause state on the state manager.
+    private volatile boolean retry; // Resets the thread and state manager on next update if true.
 
     /* ---------------- Constructor --------------- */
     public InputBuffer() {
         this.directionBuffer = new LinkedList<>();
-        this.paused = false;
+        this.togglePause = false;
+        this.retry = false;
     }
 
     /* ------------------ Public ------------------ */
@@ -36,7 +38,12 @@ public class InputBuffer {
 
             // Pause button.
             case KeyEvent.VK_P:
-                this.paused = !this.paused;
+                this.togglePause = !this.togglePause;
+                break;
+
+            // Reset button.
+            case KeyEvent.VK_R:
+                this.retry = true;
                 break;
 
             default:
@@ -48,6 +55,11 @@ public class InputBuffer {
         this.directionBuffer.clear();
     }
 
+    public void togglePause() {
+        this.togglePause = !this.togglePause;
+    }
+
+    /* ------------------ Getters ----------------- */
     public Direction peekDirection() {
         return directionBuffer.peek();
     }
@@ -56,8 +68,27 @@ public class InputBuffer {
         return directionBuffer.poll();
     }
 
-    public boolean isPaused() {
-        return paused;
+    public boolean getTogglePause() {
+        boolean pauseState = togglePause;
+        togglePause = false;
+
+        return pauseState;
+    }
+
+    public boolean getRetry() {
+        boolean resetState = retry;
+        retry = false;
+
+        return resetState;
+    }
+
+    /* ------------------ Setters ----------------- */
+    public void setTogglePause(boolean togglePause) {
+        this.togglePause = togglePause;
+    }
+
+    public void setRetry(boolean retry) {
+        this.retry = retry;
     }
 
     /* ------------------ Private ----------------- */
