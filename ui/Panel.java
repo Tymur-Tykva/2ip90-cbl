@@ -41,19 +41,22 @@ public class Panel extends JPanel {
         // set a 2d array list for containing apples
         ArrayList<Apple> apples = stateManager.getApples();
         int sideApple = 45;
-        int paddingA = 5;
+        int paddingA = 8;
 
         // initialize the colors of the different apples
         Color red = new Color(255, 59, 59);
         Color black = new Color(64, 64, 64);
         Color yellow = new Color(236, 255, 54);
-
+        ImageIcon redAppleImage = new ImageIcon("redAppleImage.png");
         // paint all of the apples from the array list
         for (Apple apple : apples) {
             Point point = apple.getPosition();
             Color appleColor = apple.getColor();
-            g2D.setColor(appleColor);
-            g2D.fillOval(point.x * sqr + paddingA, point.y * sqr + paddingA, sideApple, sideApple);
+
+            g2D.drawImage(redAppleImage.getImage(), point.x * sqr + paddingA, point.y * sqr + 15, 45, 45, null);
+
+            
+
         }
 
         // Initialize deque for the snake's body
