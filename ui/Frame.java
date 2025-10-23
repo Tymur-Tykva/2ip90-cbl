@@ -7,7 +7,7 @@ import logic.GameLoop;
 import logic.InputBuffer;
 import logic.StateManager;
 
-public class Frame extends JFrame implements PanelPauseListener {
+public class Frame extends JFrame {
     private InputBuffer inputBuffer;
     private Panel panelMain;
     private StateManager stateManager;
@@ -31,7 +31,7 @@ public class Frame extends JFrame implements PanelPauseListener {
         this.stateManager = new StateManager(inputBuffer);
         this.panelMain = new Panel(inputBuffer, stateManager);
         this.gameLoop = new GameLoop(panelMain, stateManager);
-        this.pauseMenu = new PanelPause(this);
+        this.pauseMenu = new PanelPause();
         this.mainPanelContainer = new JPanel();
         this.cardLayout = new CardLayout();
 
@@ -112,26 +112,5 @@ public class Frame extends JFrame implements PanelPauseListener {
         gameLoop.start();
     }
 
-
-    // override the onContinueClicked, so it switches from pause menu to main panel
-    @Override
-    public void onContinueClicked() {
-        cardLayout.show(mainPanelContainer, "panelMain");
-        this.isPanelMainVis = true;
-    }
-
-    // override the onRetryClicked, so it restarts the game
-    @Override
-    public void onRetryClicked() {
-        
-        //TODO: Tymur must add the restart the game method
-
-    }
-
-    // override the onExitClicked, so it closes the game
-    @Override
-    public void onExitClicked() {
-        System.exit(0);
-
-    }
+    
 }
