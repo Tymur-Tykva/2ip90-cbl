@@ -35,7 +35,7 @@ public class Config {
 
     /* ----------------- Game Over ---------------- */
     public static final String[] DEATH_SELF_MESSAGES = {
-            "Try avoiding your own body.", "Next time, turn away from yourself.", "Try panic pressing the buttons."
+            "Try avoiding your own body.", "Next time, turn away from yourself.", "Try not panic pressing the buttons."
     };
 
     public static final String[] DEATH_BORDER_MESSAGES = {

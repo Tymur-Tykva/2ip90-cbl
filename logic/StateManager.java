@@ -223,6 +223,11 @@ public class StateManager {
     // this.score = score;
     // }
 
+    public void setPaused(boolean paused) {
+        this.isPaused = paused;
+        this.pauseChanged = true;
+    }
+
     public void setSnake(Deque<Point> snake) {
         this.snake = snake;
     }

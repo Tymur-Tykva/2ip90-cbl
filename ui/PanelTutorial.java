@@ -1,12 +1,18 @@
 package ui;
 
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.net.URL;
 import javax.swing.*;
+import logic.StateManager;
 
 public class PanelTutorial extends JPanel {
+    StateManager stateManager;
 
-    public PanelTutorial() {
+    public PanelTutorial(StateManager stateManager) {
+        this.stateManager = stateManager;
+
         setPreferredSize(new Dimension(605, 605));
         setBackground(new Color(147, 109, 62));
         setLayout(new BorderLayout());
@@ -89,8 +95,30 @@ public class PanelTutorial extends JPanel {
         labelCont.setBounds(30, 250, imageIconControls.getIconWidth(), imageIconControls.getIconHeight());
         topPanelTutorial.add(labelCont);
 
-        add(topPanelTutorial, BorderLayout.NORTH);
+        // Create the prompt panel.
+        JPanel promptPanel = new JPanel();
+        promptPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
+        // Set the prompt text.
+        JLabel promptText = new JLabel("Press any key to continue...");
+        promptText.setFont(new Font("Serif", Font.BOLD, 20));
+        promptText.setForeground(colorText);
+
+        // Add the prompt text to the prompt panel.
+        promptPanel.add(promptText);
+
+        // Add all child panels to the tutorial panel.
+        add(topPanelTutorial, BorderLayout.NORTH);
+        add(promptPanel, BorderLayout.SOUTH);
+
+        // Add a keyboard listener.
+        setFocusable(true);
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                stateManager.setPaused(false);
+            }
+        });
     }
 
 }
