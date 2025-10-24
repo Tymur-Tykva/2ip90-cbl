@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.*;
 import logic.GameLoop;
 import logic.InputBuffer;
-import logic.RetryHandler;
 import logic.StateManager;
 
 public class Frame extends JFrame {
@@ -13,7 +12,6 @@ public class Frame extends JFrame {
     private JPanel mainPanelContainer;
     // Logic components.
     private JLabel scoreLabel;
-    private RetryHandler retryHandler;
     private InputBuffer inputBuffer;
     private StateManager stateManager;
     // UI components.
@@ -107,6 +105,8 @@ public class Frame extends JFrame {
         // Set pause button.
         PauseButton pause = new PauseButton("");
         panelTop.add(pause, BorderLayout.EAST);
+
+        // Set the pause button listener
         pause.addActionListener((ActionEvent e) -> {
             inputBuffer.togglePause();
         });
@@ -130,4 +130,6 @@ public class Frame extends JFrame {
         // Start the gameloop.
         gameLoop.start();
     }
+
+    
 }
