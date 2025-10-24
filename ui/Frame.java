@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.*;
 import logic.GameLoop;
 import logic.InputBuffer;
+import logic.RetryHandler;
 import logic.StateManager;
 
 public class Frame extends JFrame {
@@ -38,7 +39,7 @@ public class Frame extends JFrame {
 
         // Create the retry handler for the pause menu and keybind.
         // Resets the game loop and state manager; passed into UI components.
-        this.retryHandler = new RetryHandler() {
+        RetryHandler retryHandler = new RetryHandler() {
             @Override
             public void retry() {
                 if (gameLoop == null) {
@@ -131,5 +132,4 @@ public class Frame extends JFrame {
         gameLoop.start();
     }
 
-    
 }
