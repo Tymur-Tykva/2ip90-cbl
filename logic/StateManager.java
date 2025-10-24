@@ -41,8 +41,6 @@ public class StateManager {
 
     /* ------------------ Public ------------------ */
     public void reset() {
-        System.out.println("Resetting state");
-
         // Flush the input buffer.
         this.inputBuffer.clearDirectionBuffer();
         this.inputBuffer.setTogglePause(false);

@@ -9,13 +9,18 @@ import logic.RetryHandler;
 import logic.StateManager;
 
 public class Frame extends JFrame {
-    private InputBuffer inputBuffer;
-    private Panel panelMain;
-    private StateManager stateManager;
-    private GameLoop gameLoop;
-    private PanelPause pauseMenu;
+    // Container for the main panel slot.
     private JPanel mainPanelContainer;
+    // Logic components.
     private RetryHandler retryHandler;
+    private InputBuffer inputBuffer;
+    private StateManager stateManager;
+    // UI components.
+    private Panel panelMain;
+    private PanelPause pauseMenu;
+    private PanelGameOver gameOverMenu;
+    // Game loop.
+    private GameLoop gameLoop;
 
     /*
      * Create a frame with default parameters.
@@ -41,8 +46,6 @@ public class Frame extends JFrame {
                     return;
                 }
 
-                System.out.println("Retrying");
-
                 // Have to create a new thread, otherwise stop() will prevent start() from
                 // running.
                 new Thread(() -> {
@@ -57,12 +60,13 @@ public class Frame extends JFrame {
         this.stateManager = new StateManager(inputBuffer, retryHandler);
 
         // Init UI components.
-        this.pauseMenu = new PanelPause(stateManager);
         this.panelMain = new Panel(stateManager);
+        this.pauseMenu = new PanelPause(stateManager);
+        this.gameOverMenu = new PanelGameOver(stateManager);
 
         // Init the game loop.
         CardLayout cl = (CardLayout) (mainPanelContainer.getLayout());
-        this.gameLoop = new GameLoop(stateManager, cl, panelMain, pauseMenu);
+        this.gameLoop = new GameLoop(stateManager, panelMain, pauseMenu, gameOverMenu, cl);
     }
 
     /*
@@ -119,6 +123,7 @@ public class Frame extends JFrame {
 
         mainPanelContainer.add(panelMain, "panelMain");
         mainPanelContainer.add(pauseMenu, "pauseMenu");
+        mainPanelContainer.add(gameOverMenu, "gameOverMenu");
 
         // Display the frame.
         pack();

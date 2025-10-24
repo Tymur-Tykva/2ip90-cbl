@@ -2,25 +2,32 @@ package logic;
 
 import java.awt.CardLayout;
 import ui.Panel;
+import ui.PanelGameOver;
 import ui.PanelPause;
 
 public class GameLoop implements Runnable {
     private static final int FPS = 4;
     private static final long INTERVAL_NS = 1_000_000_000L / FPS; // this is 1 second in nanosecods
 
-    // private JPanel mainPanelContainer;
-    private Panel panel; // Used to triger repaint().
-    private PanelPause panelPause;
-    private CardLayout cl;
-    private StateManager stateManager; // Used to update the game state every update.
-    private Thread thread;
-    private boolean running; // Used to stopo the game while loop.
+    // UI components.
+    private Panel panel;
+    private PanelPause pauseMenu;
+    private PanelGameOver gameOverMenu;
+    private CardLayout cl; // Card layout for the mainPanelContainer.
 
-    public GameLoop(StateManager stateManager, CardLayout cl, Panel panel, PanelPause panelPause) {
+    private StateManager stateManager;
+
+    private Thread thread;
+    private boolean running;
+
+    public GameLoop(StateManager stateManager,
+            Panel panel, PanelPause pauseMenu, PanelGameOver gameOverMenu,
+            CardLayout cl) {
         // Get the UI components.
-        this.cl = cl;
         this.panel = panel;
-        this.panelPause = panelPause;
+        this.pauseMenu = pauseMenu;
+        this.gameOverMenu = gameOverMenu;
+        this.cl = cl;
 
         // Initialize the logic components.
         this.stateManager = stateManager;
@@ -47,6 +54,7 @@ public class GameLoop implements Runnable {
 
         // Set the running flag to false to stop the game loop and stop the thread.
         this.running = false;
+
         try {
             thread.join();
         } catch (InterruptedException e) {
@@ -80,9 +88,8 @@ public class GameLoop implements Runnable {
             }
 
             if (stateManager.isGameOver()) {
-                // TODO: Gracefully handle game over.
-                cl.show(panel.getParent(), "panelMain");
-                panel.requestFocus();
+                cl.show(gameOverMenu.getParent(), "gameOverMenu");
+                gameOverMenu.requestFocus();
 
                 running = false;
                 break;
@@ -94,8 +101,8 @@ public class GameLoop implements Runnable {
 
             if (pauseChanged) {
                 if (isPaused) {
-                    cl.show(panel.getParent(), "pauseMenu");
-                    panelPause.requestFocus();
+                    cl.show(pauseMenu.getParent(), "pauseMenu");
+                    pauseMenu.requestFocus();
                 } else {
                     // If unpaused, display panelMain and bring focus to it.
                     cl.show(panel.getParent(), "panelMain");
