@@ -8,8 +8,7 @@ import java.util.ArrayList;
  */
 public class Config {
     /* ------------------- Grid ------------------- */
-    public static final int GRID_WIDTH = 11;
-    public static final int GRID_HEIGHT = 11;
+    public static final int GRID_SIDE = 11;
 
     /* ------------------- Snake ------------------ */
     public static final Point INITIAL_SNAKE_POSITION = new Point(4, 5);
@@ -36,20 +35,16 @@ public class Config {
 
     /* ----------------- Game Over ---------------- */
     public static final String[] DEATH_SELF_MESSAGES = {
-        "Try avoiding your body.", "Try avoiding your body.", "Try avoiding your body."
-
-        //"SELF_A", "SELF_B", "SELF_C"
+            "Try avoiding your own body.", "Next time, turn away from yourself.", "Try panic pressing the buttons."
     };
 
     public static final String[] DEATH_BORDER_MESSAGES = {
-        "Try avoiding borders.", "Try avoiding borders.", "Try avoiding borders."
-
-        // "BORDER_A", "BORDER_B", "BORDER_C"
+            "Try avoiding borders.", "The walls should be quite easy to avoid...",
+            "Tip: don't eat yellow apples when right next to the border."
     };
 
     public static final String[] DEATH_BLACK_APPLE_MESSAGES = {
-        "Try avoiding black apples.", "Try avoiding black apples.", "Try avoiding black apples."
-
-        //"B_APPLE_A", "B_APPLE_B", "B_APPLE_C"
+            "Try avoiding the black apples.", "The color black does usually mean death.",
+            "Wait for a bit before eating the black apples, they might change."
     };
 }

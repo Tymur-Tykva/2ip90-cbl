@@ -1,6 +1,5 @@
 package apples;
 
-import java.awt.Color;
 import java.awt.Point;
 import java.util.Deque;
 import java.util.LinkedList;
@@ -16,7 +15,7 @@ public class YellowApple extends Apple {
      */
     public YellowApple(Point position) {
         super(position);
-        this.color = new Color(236, 255, 54);
+        this.imageUrl = getClass().getResource("/ui/yellowAppleImage.png");
     }
 
     /**
@@ -27,7 +26,7 @@ public class YellowApple extends Apple {
      */
     public YellowApple(StateManager stateManager) {
         super(stateManager, true);
-        this.color = new Color(236, 255, 54);
+        this.imageUrl = getClass().getResource("/ui/yellowAppleImage.png");
     }
 
     /* ------------------ Public ------------------ */

@@ -4,11 +4,13 @@ import apples.Apple;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.net.URL;
 import java.util.*;
 import javax.swing.*;
 import logic.InputBuffer;
 import logic.RetryHandler;
 import logic.StateManager;
+import utils.Config;
 
 public class Panel extends JPanel {
     StateManager stateManager;
@@ -36,9 +38,9 @@ public class Panel extends JPanel {
 
         // set the forloop for the checkpatter
         int sidePanel = 605;
-        int sqr = 605 / 11;
-        for (int col = 0; col < 11; col++) {
-            for (int row = 0; row < 11; row++) {
+        int sqr = sidePanel / Config.GRID_SIDE;
+        for (int col = 0; col < Config.GRID_SIDE; col++) {
+            for (int row = 0; row < Config.GRID_SIDE; row++) {
                 if (((row % 2 == 0) && (col % 2 == 0)) || (!(row % 2 == 0) && !(col % 2 == 0))) {
                     g2D.setColor(new Color(125, 189, 91));
                     g2D.fillRect(row * sqr, col * sqr, 55, 55);
@@ -53,17 +55,19 @@ public class Panel extends JPanel {
         // set a 2d array list for containing apples
         ArrayList<Apple> apples = new ArrayList<>(stateManager.getApples());
         int sideApple = 45;
-        int paddingA = 8;
+        int paddingA = 5;
 
         // paint all of the apples from the array list
         for (Apple apple : apples) {
             Point point = apple.getPosition();
-            Color appleColor = apple.getColor();
+            URL imageUrl = apple.getImageUrl();
+            Image appleImage = new ImageIcon(imageUrl).getImage();
 
-            // g2D.drawImage(redAppleImage.getImage(), point.x * sqr + paddingA, point.y * sqr + 15, 45, 45, null);
-
-            
-
+            g2D.drawImage(appleImage,
+                    point.x * sqr + paddingA,
+                    point.y * sqr + paddingA,
+                    sideApple, sideApple,
+                    null);
         }
 
         // Initialize deque for the snake's body

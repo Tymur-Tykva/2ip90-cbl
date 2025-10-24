@@ -1,6 +1,5 @@
 package apples;
 
-import java.awt.Color;
 import java.awt.Point;
 import logic.StateManager;
 
@@ -13,7 +12,7 @@ public class RedApple extends Apple {
      */
     public RedApple(Point position) {
         super(position);
-        this.color = new Color(255, 59, 59);
+        this.imageUrl = getClass().getResource("/ui/redAppleImage.png");
     }
 
     /**
@@ -23,7 +22,7 @@ public class RedApple extends Apple {
      */
     public RedApple(StateManager stateManager) {
         super(stateManager);
-        this.color = new Color(255, 59, 59);
+        this.imageUrl = getClass().getResource("/ui/redAppleImage.png");
     }
 
     /* ------------------ Public ------------------ */

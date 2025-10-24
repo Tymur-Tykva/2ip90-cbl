@@ -1,6 +1,5 @@
 package apples;
 
-import java.awt.Color;
 import java.awt.Point;
 import java.util.Random;
 import logic.StateManager;
@@ -15,8 +14,8 @@ public class BlackApple extends Apple {
      */
     public BlackApple(Point position) {
         super(position);
-        color = new Color(64, 64, 64);
-        expiresIn = 10;
+        this.imageUrl = getClass().getResource("/ui/blackAppleImage.png");
+        this.expiresIn = 10;
     }
 
     /**
@@ -27,8 +26,8 @@ public class BlackApple extends Apple {
      */
     public BlackApple(StateManager stateManager) {
         super(stateManager, true);
-        color = new Color(64, 64, 64);
-        expiresIn = 10;
+        this.imageUrl = getClass().getResource("/ui/blackAppleImage.png");
+        this.expiresIn = 10;
     }
 
     /* ------------------ Public ------------------ */

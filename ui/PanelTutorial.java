@@ -1,6 +1,7 @@
 package ui;
 
 import java.awt.*;
+import java.net.URL;
 import javax.swing.*;
 
 public class PanelTutorial extends JPanel {
@@ -64,9 +65,9 @@ public class PanelTutorial extends JPanel {
         topPanelTutorial.add(typesApple);
 
         // Set the fricking images of Apples (this took way too long :( )
-        java.net.URL imageUrlRedApple = getClass().getResource("/ui/redAppleImage.png");
-        java.net.URL imageUrlYellowApple = getClass().getResource("/ui/yellowAppleImage.png");
-        java.net.URL imageUrlBlackApple = getClass().getResource("/ui/blackAppleImage.png");
+        URL imageUrlRedApple = getClass().getResource("/ui/redAppleImage.png");
+        URL imageUrlYellowApple = getClass().getResource("/ui/yellowAppleImage.png");
+        URL imageUrlBlackApple = getClass().getResource("/ui/blackAppleImage.png");
         ImageIcon imageIconRed = new ImageIcon(imageUrlRedApple);
         ImageIcon imageIconYellow = new ImageIcon(imageUrlYellowApple);
         ImageIcon imageIconBlack = new ImageIcon(imageUrlBlackApple);
@@ -82,7 +83,7 @@ public class PanelTutorial extends JPanel {
         topPanelTutorial.add(labelBlackApple);
 
         // Set the image of the controls
-        java.net.URL imageUrlControls = getClass().getResource("/ui/Controls.png");
+        URL imageUrlControls = getClass().getResource("/ui/Controls.png");
         ImageIcon imageIconControls = new ImageIcon(imageUrlControls);
         JLabel labelCont = new JLabel(imageIconControls);
         labelCont.setBounds(30, 250, imageIconControls.getIconWidth(), imageIconControls.getIconHeight());

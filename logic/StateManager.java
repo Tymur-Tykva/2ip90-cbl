@@ -271,7 +271,7 @@ public class StateManager {
      * breakpoints are specified in the config.
      */
     private void spawnApples() {
-        int availableSpaces = (Config.GRID_WIDTH * Config.GRID_HEIGHT) - snake.size();
+        int availableSpaces = (Config.GRID_SIDE * Config.GRID_SIDE) - snake.size();
         boolean hasAvailableSpaces = availableSpaces >= Config.APPLE_AVAILABLE_SPACES;
 
         if (!hasAvailableSpaces) {
@@ -412,7 +412,7 @@ public class StateManager {
     }
 
     private boolean isInBounds(Point position) {
-        return position.x >= 0 && position.x < Config.GRID_WIDTH
-                && position.y >= 0 && position.y < Config.GRID_HEIGHT;
+        return position.x >= 0 && position.x < Config.GRID_SIDE
+                && position.y >= 0 && position.y < Config.GRID_SIDE;
     }
 }

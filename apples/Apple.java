@@ -2,8 +2,8 @@ package apples;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.net.URL;
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 import logic.StateManager;
 import utils.Config;
@@ -13,7 +13,8 @@ import utils.Config;
  */
 public class Apple {
     protected Point position;
-    protected Color color = Color.RED;
+    protected Color color;
+    protected URL imageUrl;
     protected int expiresIn = -1; // If set to -1, the expiry effect is disabled.
 
     /* --------------- Constructors --------------- */
@@ -37,8 +38,8 @@ public class Apple {
         Set<Point> availableSpaces = new HashSet<Point>();
 
         // Find all spaces not containing the snake body.
-        for (int x = 0; x < Config.GRID_WIDTH; x++) {
-            for (int y = 0; y < Config.GRID_HEIGHT; y++) {
+        for (int x = 0; x < Config.GRID_SIDE; x++) {
+            for (int y = 0; y < Config.GRID_SIDE; y++) {
                 Point point = new Point(x, y);
                 if (!stateManager.getSnake().contains(point)) {
                     availableSpaces.add(point);
@@ -121,5 +122,9 @@ public class Apple {
 
     public Color getColor() {
         return color;
+    }
+
+    public URL getImageUrl() {
+        return imageUrl;
     }
 }
