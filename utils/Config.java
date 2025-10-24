@@ -19,7 +19,6 @@ public class Config {
     public static final ArrayList<Point> INITIAL_APPLE_POSITIONS = new ArrayList<Point>() {
         {
             add(new Point(6, 5));
-            add(new Point(6, 4));
         }
     };
     public static final int BLACK_APPLE_EXPIRES_IN = 10;
@@ -37,14 +36,20 @@ public class Config {
 
     /* ----------------- Game Over ---------------- */
     public static final String[] DEATH_SELF_MESSAGES = {
-            "SELF_A", "SELF_B", "SELF_C"
+        "Try avoiding your body.", "Try avoiding your body.", "Try avoiding your body."
+
+        //"SELF_A", "SELF_B", "SELF_C"
     };
 
     public static final String[] DEATH_BORDER_MESSAGES = {
-            "BORDER_A", "BORDER_B", "BORDER_C"
+        "Try avoiding borders.", "Try avoiding borders.", "Try avoiding borders."
+
+        // "BORDER_A", "BORDER_B", "BORDER_C"
     };
 
     public static final String[] DEATH_BLACK_APPLE_MESSAGES = {
-            "B_APPLE_A", "B_APPLE_B", "B_APPLE_C"
+        "Try avoiding black apples.", "Try avoiding black apples.", "Try avoiding black apples."
+
+        //"B_APPLE_A", "B_APPLE_B", "B_APPLE_C"
     };
 }
