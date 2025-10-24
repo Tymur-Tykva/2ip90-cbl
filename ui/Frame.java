@@ -19,6 +19,7 @@ public class Frame extends JFrame {
     private Panel panelMain;
     private PanelPause pauseMenu;
     private PanelGameOver gameOverMenu;
+    private PanelTutorial tutorial;
     // Game loop.
     private GameLoop gameLoop;
 
@@ -64,6 +65,7 @@ public class Frame extends JFrame {
         this.panelMain = new Panel(stateManager);
         this.pauseMenu = new PanelPause(stateManager);
         this.gameOverMenu = new PanelGameOver(stateManager);
+        this.tutorial = new PanelTutorial();
 
         // Init the game loop.
         CardLayout cl = (CardLayout) (mainPanelContainer.getLayout());
@@ -120,9 +122,11 @@ public class Frame extends JFrame {
         add(panelTop, BorderLayout.NORTH);
         add(mainPanelContainer, BorderLayout.CENTER);
 
-        mainPanelContainer.add(panelMain, "panelMain");
+       /** mainPanelContainer.add(panelMain, "panelMain");
         mainPanelContainer.add(pauseMenu, "pauseMenu");
         mainPanelContainer.add(gameOverMenu, "gameOverMenu");
+        */
+        mainPanelContainer.add(tutorial, "tutorial");
 
         // Display the frame.
         pack();
