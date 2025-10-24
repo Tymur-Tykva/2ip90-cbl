@@ -22,6 +22,7 @@ public class GameLoop implements Runnable {
 
     private Thread thread;
     private boolean running;
+    private boolean tutorialDismissed;
 
     public GameLoop(StateManager stateManager,
             Panel panel, PanelPause pauseMenu, PanelGameOver gameOverMenu,
@@ -36,6 +37,7 @@ public class GameLoop implements Runnable {
         // Initialize the logic components.
         this.stateManager = stateManager;
         this.running = false;
+        this.tutorialDismissed = false;
     }
 
     public void start() {
@@ -74,12 +76,18 @@ public class GameLoop implements Runnable {
         // System.out.println("=== Loop Start ===");
         // System.out.println("interval: " + INTERVAL_NS);
 
+        // If the tutorial hasn't been dismissed on this run, pause the loop and show
+        // the tutorial panel.
+        if (!tutorialDismissed) {
+            stateManager.setPaused(true);
+
+            cl.show(panel.getParent(), "tutorialMenu");
+        }
+
         while (running) {
             // Calculate the elapsed time since last update.
             long currentTime = System.nanoTime();
             long elapsed = currentTime - previousTime;
-
-            // System.out.println("=== Loop ===");
 
             previousTime = currentTime;
             lag += elapsed;
@@ -89,6 +97,10 @@ public class GameLoop implements Runnable {
                 // System.out.println("Update: " + lag);
                 stateManager.update();
                 lag -= INTERVAL_NS;
+            }
+
+            if (!tutorialDismissed && !stateManager.isPaused()) {
+                tutorialDismissed = true;
             }
 
             if (stateManager.isGameOver()) {
