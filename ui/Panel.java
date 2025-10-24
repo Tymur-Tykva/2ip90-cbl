@@ -60,7 +60,7 @@ public class Panel extends JPanel {
             Point point = apple.getPosition();
             Color appleColor = apple.getColor();
 
-            g2D.drawImage(redAppleImage.getImage(), point.x * sqr + paddingA, point.y * sqr + 15, 45, 45, null);
+            // g2D.drawImage(redAppleImage.getImage(), point.x * sqr + paddingA, point.y * sqr + 15, 45, 45, null);
 
             
 
