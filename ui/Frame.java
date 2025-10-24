@@ -122,10 +122,9 @@ public class Frame extends JFrame {
         add(panelTop, BorderLayout.NORTH);
         add(mainPanelContainer, BorderLayout.CENTER);
 
-       /** mainPanelContainer.add(panelMain, "panelMain");
+        mainPanelContainer.add(panelMain, "panelMain");
         mainPanelContainer.add(pauseMenu, "pauseMenu");
         mainPanelContainer.add(gameOverMenu, "gameOverMenu");
-        */
         mainPanelContainer.add(tutorial, "tutorial");
 
         // Display the frame.
