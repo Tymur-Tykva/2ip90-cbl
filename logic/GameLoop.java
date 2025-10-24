@@ -89,6 +89,7 @@ public class GameLoop implements Runnable {
 
             if (stateManager.isGameOver()) {
                 cl.show(gameOverMenu.getParent(), "gameOverMenu");
+                gameOverMenu.updateGameOverMessage();
                 gameOverMenu.requestFocus();
 
                 running = false;

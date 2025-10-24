@@ -25,11 +25,13 @@ public class StateManager {
     private boolean growSnake; // When true, snake will grow next update.
     private int score;
 
-    private boolean gameOver;
     private boolean isPaused;
     private boolean pauseChanged;
 
     private Random random;
+
+    private boolean gameOver;
+    private String gameOverMessage;
 
     /* ---------------- Constructor --------------- */
     public StateManager(InputBuffer inputBuffer, RetryHandler retryHandler) {
@@ -54,9 +56,11 @@ public class StateManager {
         this.growSnake = false;
         this.score = 0;
 
-        this.gameOver = false;
         this.isPaused = false;
         this.pauseChanged = false;
+
+        this.gameOver = false;
+        this.gameOverMessage = "No death message? I wonder how you got this...";
 
         // Add the 'head' point of the snake, and then the body of the snake behind it.
         Point snakePoint = (Point) Config.INITIAL_SNAKE_POSITION.clone();
@@ -144,6 +148,12 @@ public class StateManager {
         inputBuffer.clearDirectionBuffer();
     }
 
+    public void setRandomDeathMessage(String[] messageList) {
+        int messageIndex = random.nextInt(messageList.length);
+        this.gameOverMessage = messageList[messageIndex];
+        // System.out.println(this.gameOverMessage);
+    }
+
     /* ------------------ Getters ----------------- */
     public InputBuffer getInputBuffer() {
         return inputBuffer;
@@ -167,6 +177,10 @@ public class StateManager {
 
     public boolean isGameOver() {
         return gameOver;
+    }
+
+    public String getGameOverMessage() {
+        return gameOverMessage;
     }
 
     public int getScore() {
@@ -365,12 +379,12 @@ public class StateManager {
         boolean snakeSelfColliding = isSnakeSelfColliding();
         boolean inBounds = isInBounds(snake.peekFirst());
 
-        // if (snakeSelfColliding) {
-        // System.out.println("FC: Snake self collision");
-        // }
-        // if (!inBounds) {
-        // System.out.println("FC: Out of bounds");
-        // }
+        if (snakeSelfColliding) {
+            setRandomDeathMessage(Config.DEATH_SELF_MESSAGES);
+        }
+        if (!inBounds) {
+            setRandomDeathMessage(Config.DEATH_BORDER_MESSAGES);
+        }
 
         return snakeSelfColliding || !inBounds;
     }

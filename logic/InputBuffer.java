@@ -38,6 +38,7 @@ public class InputBuffer {
 
             // Pause button.
             case KeyEvent.VK_P:
+            case KeyEvent.VK_ESCAPE:
                 this.togglePause = !this.togglePause;
                 break;
 

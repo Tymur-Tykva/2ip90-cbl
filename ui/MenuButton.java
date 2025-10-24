@@ -6,9 +6,9 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-public class PauseMenuButton extends JButton {
+public class MenuButton extends JButton {
 
-    public PauseMenuButton(String text) {
+    public MenuButton(String text) {
         super(text);
         // Intiliaze the customs for the buttons
         Font fontButton = new Font("Serif", Font.BOLD, 25);
