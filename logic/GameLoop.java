@@ -5,6 +5,7 @@ import javax.swing.JLabel;
 import ui.Panel;
 import ui.PanelGameOver;
 import ui.PanelPause;
+import ui.PanelTutorial;
 
 public class GameLoop implements Runnable {
     private static final int FPS = 4;
@@ -14,6 +15,7 @@ public class GameLoop implements Runnable {
     private Panel panel;
     private PanelPause pauseMenu;
     private PanelGameOver gameOverMenu;
+    private PanelTutorial tutorialMenu;
     private CardLayout cl; // Card layout for the mainPanelContainer.
 
     private JLabel scoreLabel;
@@ -25,13 +27,15 @@ public class GameLoop implements Runnable {
     private boolean tutorialDismissed;
 
     public GameLoop(StateManager stateManager,
-            Panel panel, PanelPause pauseMenu, PanelGameOver gameOverMenu,
+            Panel panel, PanelPause pauseMenu, PanelGameOver gameOverMenu, PanelTutorial tutorialMenu,
             CardLayout cl, JLabel scoreLabel) {
         // Get the UI components.
         this.panel = panel;
         this.pauseMenu = pauseMenu;
         this.gameOverMenu = gameOverMenu;
+        this.tutorialMenu = tutorialMenu;
         this.cl = cl;
+
         this.scoreLabel = scoreLabel;
 
         // Initialize the logic components.
@@ -76,12 +80,13 @@ public class GameLoop implements Runnable {
         // System.out.println("=== Loop Start ===");
         // System.out.println("interval: " + INTERVAL_NS);
 
-        // If the tutorial hasn't been dismissed on this run, pause the loop and show
-        // the tutorial panel.
+        // If the tutorial hasn't been dismissed on this run, pause state updates and
+        // show the tutorial panel.
         if (!tutorialDismissed) {
             stateManager.setPaused(true);
 
             cl.show(panel.getParent(), "tutorialMenu");
+            tutorialMenu.requestFocus();
         }
 
         while (running) {
@@ -99,8 +104,12 @@ public class GameLoop implements Runnable {
                 lag -= INTERVAL_NS;
             }
 
+            // Dismiss the tutorial if the game is unpaused.
             if (!tutorialDismissed && !stateManager.isPaused()) {
                 tutorialDismissed = true;
+
+                cl.show(panel.getParent(), "panelMain");
+                panel.requestFocus();
             }
 
             if (stateManager.isGameOver()) {
@@ -120,7 +129,7 @@ public class GameLoop implements Runnable {
             boolean pauseChanged = stateManager.pauseChanged();
             boolean isPaused = stateManager.isPaused();
 
-            if (pauseChanged) {
+            if (pauseChanged && tutorialDismissed) {
                 if (isPaused) {
                     cl.show(pauseMenu.getParent(), "pauseMenu");
                     pauseMenu.requestFocus();

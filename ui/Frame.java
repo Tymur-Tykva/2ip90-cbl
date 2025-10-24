@@ -65,11 +65,11 @@ public class Frame extends JFrame {
         this.panelMain = new Panel(stateManager);
         this.pauseMenu = new PanelPause(stateManager);
         this.gameOverMenu = new PanelGameOver(stateManager);
-        this.tutorialMenu = new PanelTutorial();
+        this.tutorialMenu = new PanelTutorial(stateManager);
 
         // Init the game loop.
         CardLayout cl = (CardLayout) (mainPanelContainer.getLayout());
-        this.gameLoop = new GameLoop(stateManager, panelMain, pauseMenu, gameOverMenu, cl, scoreLabel);
+        this.gameLoop = new GameLoop(stateManager, panelMain, pauseMenu, gameOverMenu, tutorialMenu, cl, scoreLabel);
     }
 
     /*
