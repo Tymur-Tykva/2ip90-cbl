@@ -12,6 +12,7 @@ public class Frame extends JFrame {
     // Container for the main panel slot.
     private JPanel mainPanelContainer;
     // Logic components.
+    private JLabel scoreLabel;
     private RetryHandler retryHandler;
     private InputBuffer inputBuffer;
     private StateManager stateManager;
@@ -56,6 +57,7 @@ public class Frame extends JFrame {
         };
 
         // Init logic components.
+        this.scoreLabel = new JLabel("0");
         this.inputBuffer = new InputBuffer();
         this.stateManager = new StateManager(inputBuffer, retryHandler);
 
@@ -66,7 +68,7 @@ public class Frame extends JFrame {
 
         // Init the game loop.
         CardLayout cl = (CardLayout) (mainPanelContainer.getLayout());
-        this.gameLoop = new GameLoop(stateManager, panelMain, pauseMenu, gameOverMenu, cl);
+        this.gameLoop = new GameLoop(stateManager, panelMain, pauseMenu, gameOverMenu, cl, scoreLabel);
     }
 
     /*
@@ -76,49 +78,45 @@ public class Frame extends JFrame {
         // Set the layout.
         setLayout(new BorderLayout());
 
-        // Set the layout of panelTop
+        // Set the layout of panelTop.
         JPanel panelTop = new JPanel();
         panelTop.setPreferredSize(new Dimension(605, 70));
         panelTop.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         panelTop.setBackground(new Color(147, 109, 62));
         panelTop.setLayout(new BorderLayout());
 
-        // Set the layout of panelScore
+        // Set the layout of panelScore.
         JPanel panelScore = new JPanel();
         panelScore.setPreferredSize(new Dimension(80, 30));
         panelScore.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         panelScore.setBackground(new Color(200, 163, 117));
         panelScore.setLayout(new BorderLayout());
 
-        // Set score
-        JLabel score = new JLabel("score:");
-        panelScore.add(score, BorderLayout.CENTER);
-        Integer a = 0;
-        JLabel numberScore = new JLabel(a.toString());
-        panelScore.add(numberScore, BorderLayout.EAST);
+        // Set score labels and panel.
         Color colorBrown = new Color(101, 67, 33);
-        score.setForeground(colorBrown);
-        numberScore.setForeground(colorBrown);
+        JLabel scoreTitle = new JLabel("score:");
+
+        scoreTitle.setForeground(colorBrown);
+        scoreLabel.setForeground(colorBrown);
+
+        panelScore.add(scoreTitle, BorderLayout.CENTER);
+        panelScore.add(scoreLabel, BorderLayout.EAST);
 
         panelTop.add(panelScore, BorderLayout.WEST);
 
-        // Set pause button
+        // Set pause button.
         PauseButton pause = new PauseButton("");
         panelTop.add(pause, BorderLayout.EAST);
         pause.addActionListener((ActionEvent e) -> {
             inputBuffer.togglePause();
         });
 
-        // Set the mainPanelContainer
+        // Set the mainPanelContainer.
         mainPanelContainer.setPreferredSize(new Dimension(605, 605));
         mainPanelContainer.setBackground(new Color(147, 109, 62));
 
-        // Adding all of the panels to the frame
+        // Adding all of the panels to the frame.
         add(panelTop, BorderLayout.NORTH);
-
-        /*
-         * add(panelBot, BorderLayout.SOUTH);
-         */
         add(mainPanelContainer, BorderLayout.CENTER);
 
         mainPanelContainer.add(panelMain, "panelMain");

@@ -1,6 +1,7 @@
 package logic;
 
 import java.awt.CardLayout;
+import javax.swing.JLabel;
 import ui.Panel;
 import ui.PanelGameOver;
 import ui.PanelPause;
@@ -15,6 +16,8 @@ public class GameLoop implements Runnable {
     private PanelGameOver gameOverMenu;
     private CardLayout cl; // Card layout for the mainPanelContainer.
 
+    private JLabel scoreLabel;
+
     private StateManager stateManager;
 
     private Thread thread;
@@ -22,12 +25,13 @@ public class GameLoop implements Runnable {
 
     public GameLoop(StateManager stateManager,
             Panel panel, PanelPause pauseMenu, PanelGameOver gameOverMenu,
-            CardLayout cl) {
+            CardLayout cl, JLabel scoreLabel) {
         // Get the UI components.
         this.panel = panel;
         this.pauseMenu = pauseMenu;
         this.gameOverMenu = gameOverMenu;
         this.cl = cl;
+        this.scoreLabel = scoreLabel;
 
         // Initialize the logic components.
         this.stateManager = stateManager;
@@ -95,6 +99,10 @@ public class GameLoop implements Runnable {
                 running = false;
                 break;
             }
+
+            // Update the score label.
+            String score = String.valueOf(stateManager.getScore());
+            scoreLabel.setText(score);
 
             // If the pause state has changed, update the display accordingly.
             boolean pauseChanged = stateManager.pauseChanged();
