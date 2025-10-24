@@ -34,4 +34,17 @@ public class Config {
     // breakpoint.
     public static final float INITIAL_BLACK_TO_YELLOW_CHANCE = 0.2f;
     public static final float LATE_BLACK_TO_YELLOW_CHANCE = 0.8f;
+
+    /* ----------------- Game Over ---------------- */
+    public static final String[] DEATH_SELF_MESSAGES = {
+            "SELF_A", "SELF_B", "SELF_C"
+    };
+
+    public static final String[] DEATH_BORDER_MESSAGES = {
+            "BORDER_A", "BORDER_B", "BORDER_C"
+    };
+
+    public static final String[] DEATH_BLACK_APPLE_MESSAGES = {
+            "B_APPLE_A", "B_APPLE_B", "B_APPLE_C"
+    };
 }

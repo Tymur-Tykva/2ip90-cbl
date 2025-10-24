@@ -16,29 +16,51 @@ import utils.Direction;
 
 public class StateManager {
     private InputBuffer inputBuffer;
+    private RetryHandler retryHandler;
 
     private volatile Deque<Point> snake; // Front of the queue is the head.
     private volatile ArrayList<Apple> apples;
 
-    private volatile Direction snakeDirection = Direction.R;
-    private boolean growSnake = false; // When true, snake will grow next update.
-    private int score = 0;
+    private volatile Direction snakeDirection;
+    private boolean growSnake; // When true, snake will grow next update.
+    private int score;
 
-    private boolean gameOver = false;
+    private boolean isPaused;
+    private boolean pauseChanged;
 
     private Random random;
 
+    private boolean gameOver;
+    private String gameOverMessage;
+
     /* ---------------- Constructor --------------- */
-    public StateManager(InputBuffer inputBuffer) {
+    public StateManager(InputBuffer inputBuffer, RetryHandler retryHandler) {
         this.inputBuffer = inputBuffer;
+        this.retryHandler = retryHandler;
         this.random = new Random(System.currentTimeMillis() + 5129875L);
         this.reset();
     }
 
     /* ------------------ Public ------------------ */
     public void reset() {
-        this.apples = new ArrayList<Apple>();
+        // Flush the input buffer.
+        this.inputBuffer.clearDirectionBuffer();
+        this.inputBuffer.setTogglePause(false);
+        this.inputBuffer.setRetry(false);
+
+        // Clear the state.
         this.snake = new ArrayDeque<Point>();
+        this.apples = new ArrayList<Apple>();
+
+        this.snakeDirection = Direction.R;
+        this.growSnake = false;
+        this.score = 0;
+
+        this.isPaused = false;
+        this.pauseChanged = false;
+
+        this.gameOver = false;
+        this.gameOverMessage = "No death message? I wonder how you got this...";
 
         // Add the 'head' point of the snake, and then the body of the snake behind it.
         Point snakePoint = (Point) Config.INITIAL_SNAKE_POSITION.clone();
@@ -54,12 +76,25 @@ public class StateManager {
     }
 
     public void update() {
-        // Do not update if game paused
-        if (inputBuffer.isPaused()) {
+        // Reset the game if requested.
+        if (inputBuffer.getRetry()) {
+            retryHandler.retry();
+            return;
+        }
+
+        // Capture input buffer 'toggle pause' input.
+        boolean togglePause = inputBuffer.getTogglePause();
+        if (togglePause) {
+            this.isPaused = !this.isPaused;
+            this.pauseChanged = true;
+        }
+
+        if (this.isPaused) {
             return;
         }
 
         // System.out.println("=== Update ===");
+        // System.out.println("Pause state: " + this.isPaused);
         // System.out.println("snake: ");
         // for (Point point : snake) {
         // System.out.println("- " + point.toString());
@@ -113,7 +148,21 @@ public class StateManager {
         inputBuffer.clearDirectionBuffer();
     }
 
+    public void setRandomDeathMessage(String[] messageList) {
+        int messageIndex = random.nextInt(messageList.length);
+        this.gameOverMessage = messageList[messageIndex];
+        // System.out.println(this.gameOverMessage);
+    }
+
     /* ------------------ Getters ----------------- */
+    public InputBuffer getInputBuffer() {
+        return inputBuffer;
+    }
+
+    public RetryHandler getRetryHandler() {
+        return retryHandler;
+    }
+
     public Deque<Point> getSnake() {
         return snake;
     }
@@ -127,23 +176,11 @@ public class StateManager {
     }
 
     public boolean isGameOver() {
-        if (gameOver) {
-            System.out.println("=== Game over ===");
-            // System.out.println("score: " + score);
-            // System.out.println("snake: ");
-            // for (Point point : snake) {
-            // System.out.println("- " + point.toString());
-            // }
-            // System.out.println();
-            // System.out.println("apples: ");
-            // for (Apple apple : apples) {
-            // System.out.println("- " + apple.getClass().getName() + "@" +
-            // apple.getPosition().toString());
-            // }
-            // System.out.println();
-        }
-
         return gameOver;
+    }
+
+    public String getGameOverMessage() {
+        return gameOverMessage;
     }
 
     public int getScore() {
@@ -152,6 +189,17 @@ public class StateManager {
 
     public Random getRandom() {
         return random;
+    }
+
+    public boolean isPaused() {
+        return isPaused;
+    }
+
+    public boolean pauseChanged() {
+        boolean changeState = this.pauseChanged;
+        this.pauseChanged = false;
+
+        return changeState;
     }
 
     /* ------------------ Setters ----------------- */
@@ -312,7 +360,7 @@ public class StateManager {
             // - 1 Red
 
             if (apples.size() == 0) {
-                apples.add(new YellowApple(this));
+                apples.add(new RedApple(this));
             }
         }
     }
@@ -331,12 +379,12 @@ public class StateManager {
         boolean snakeSelfColliding = isSnakeSelfColliding();
         boolean inBounds = isInBounds(snake.peekFirst());
 
-        // if (snakeSelfColliding) {
-        // System.out.println("FC: Snake self collision");
-        // }
-        // if (!inBounds) {
-        // System.out.println("FC: Out of bounds");
-        // }
+        if (snakeSelfColliding) {
+            setRandomDeathMessage(Config.DEATH_SELF_MESSAGES);
+        }
+        if (!inBounds) {
+            setRandomDeathMessage(Config.DEATH_BORDER_MESSAGES);
+        }
 
         return snakeSelfColliding || !inBounds;
     }

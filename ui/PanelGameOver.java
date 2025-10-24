@@ -9,15 +9,17 @@ import logic.InputBuffer;
 import logic.RetryHandler;
 import logic.StateManager;
 
-public class PanelPause extends JPanel {
+public class PanelGameOver extends JPanel {
     StateManager stateManager;
     InputBuffer inputBuffer;
     RetryHandler retryHandler;
 
+    private JLabel gameOverMessageLabel;
+
     /*
-     * Set the constructor of PanelPause
+     * Set the constructor of PanelGameOver
      */
-    public PanelPause(StateManager stateManager) {
+    public PanelGameOver(StateManager stateManager) {
         this.stateManager = stateManager;
         this.inputBuffer = stateManager.getInputBuffer();
         this.retryHandler = stateManager.getRetryHandler();
@@ -34,32 +36,35 @@ public class PanelPause extends JPanel {
 
         // Set the textPanel
         JPanel textPanel = new JPanel();
-        textPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
         textPanel.setBackground(null);
 
         // Initialize the font for text
-        Font fontText = new Font("Serif", Font.BOLD, 80);
+        Font fontTitle = new Font("Serif", Font.BOLD, 80);
+        Font fontText = new Font("Serif", Font.BOLD, 20);
         Color colorText = new Color(255, 253, 208);
 
-        // Set Pause Text
-        JLabel pause = new JLabel("Paused");
-        // add(pause, BorderLayout.NORTH);
-        pause.setFont(fontText);
-        pause.setForeground(colorText);
+        // Set Game Over Text
+        JLabel gameOver = new JLabel("Game Over!");
+        gameOver.setFont(fontTitle);
+        gameOver.setForeground(colorText);
+        gameOver.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // Set the game over message
+        this.gameOverMessageLabel = new JLabel();
+        gameOverMessageLabel.setFont(fontText);
+        gameOverMessageLabel.setForeground(colorText);
+        gameOverMessageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        updateGameOverMessage();
 
         /*
          * Set the buttons
          */
-        // Initialize continue button
-        MenuButton continueButton = new MenuButton("Continue");
-        continueButton.addActionListener((ActionEvent e) -> {
-            inputBuffer.togglePause();
-        });
-
         // Initialize Retry button
         MenuButton retryButton = new MenuButton("Retry");
         retryButton.addActionListener((ActionEvent e) -> {
-            inputBuffer.setRetry(true);
+            retryHandler.retry();
         });
 
         // Initialize continue button
@@ -68,15 +73,19 @@ public class PanelPause extends JPanel {
             System.exit(0);
         });
 
-        // Add the "Paused" text to the textPanel
-        textPanel.add(pause);
+        // Add the "Game Over!" text to the textPanel.
+        // Box layout used for vertical alignment.
+        textPanel.add(Box.createVerticalGlue());
+        textPanel.add(gameOver);
+        textPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        textPanel.add(gameOverMessageLabel);
+        textPanel.add(Box.createVerticalGlue());
 
         // Add the buttons to the buttonPanel
-        buttonPanel.add(continueButton);
         buttonPanel.add(retryButton);
         buttonPanel.add(exitButton);
 
-        // Add the buttonPanel to the PauseMenu
+        // Add the buttonPanel to the GameOverMenu
         add(buttonPanel, BorderLayout.SOUTH);
         add(textPanel, BorderLayout.NORTH);
 
@@ -88,5 +97,12 @@ public class PanelPause extends JPanel {
                 inputBuffer.handleEvent(e);
             }
         });
+    }
+
+    public void updateGameOverMessage() {
+        String gameOverMessage = stateManager.getGameOverMessage();
+        // System.out.println(gameOverMessage);
+
+        this.gameOverMessageLabel.setText(gameOverMessage);
     }
 }

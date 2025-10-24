@@ -34,7 +34,9 @@ public class BlackApple extends Apple {
     /* ------------------ Public ------------------ */
     @Override
     public void eat(StateManager stateManager) {
-        stateManager.setGameOver(true); // Kill the snake.
+        // Kill the snake and remove the apple.
+        stateManager.setGameOver(true);
+        stateManager.setRandomDeathMessage(Config.DEATH_BLACK_APPLE_MESSAGES);
         stateManager.getApples().remove(this);
     }
 
