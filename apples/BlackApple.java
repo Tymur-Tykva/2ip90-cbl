@@ -5,6 +5,16 @@ import java.util.Random;
 import logic.StateManager;
 import utils.Config;
 
+/**
+ * A black apple. When eaten, the game ends. When expired, it turns into either
+ * a red or yellow apple. See the implementation of onExpire() for additional
+ * information and the logic.
+ * 
+ * @author Tymur Tykva
+ * @ID 2275201
+ * @author Borislav Grebanarov
+ * @ID 2109832
+ */
 public class BlackApple extends Apple {
     /* --------------- Constructors --------------- */
     /**
@@ -39,6 +49,13 @@ public class BlackApple extends Apple {
         stateManager.getApples().remove(this);
     }
 
+    /**
+     * When the apple expires, it turns into either a yellow or a red apple, at its
+     * previous position. The probabilities of turning into each are specified in
+     * the Config class.
+     * 
+     * @param stateManager The StateManager instance.
+     */
     @Override
     public void onExpire(StateManager stateManager) {
         int score = stateManager.getScore();

@@ -8,8 +8,18 @@ import java.util.Set;
 import logic.StateManager;
 import utils.Config;
 
-/*
- * General parent class for all apples. Defines base methods.
+/**
+ * Parent class for all apple subclasses. Provides shared methods and fields.
+ * 
+ * Apples are drawn by the Panel class at position with the specified
+ * imageUrl. If expiresIn is not -1, every state manager update it will tick
+ * down, and upon reaching 0 the expiry effect will be triggered. See
+ * implementations of onExpire() in the BlackApple and RedApple classes.
+ * 
+ * @author Tymur Tykva
+ * @ID 2275201
+ * @author Borislav Grebanarov
+ * @ID 2109832
  */
 public class Apple {
     protected Point position;
@@ -18,6 +28,11 @@ public class Apple {
     protected int expiresIn = -1; // If set to -1, the expiry effect is disabled.
 
     /* --------------- Constructors --------------- */
+    /**
+     * Simply spawn the apple at the specified position.
+     * 
+     * @param position The position of the apple.
+     */
     public Apple(Point position) {
         this.position = position;
     }
@@ -55,7 +70,6 @@ public class Apple {
 
         // If there are insufficient availale spaces as specified by the config, and
         // strict is true, return.
-
         if (strict && availableSpaces.size() < Config.APPLE_AVAILABLE_SPACES) {
             return;
         }
@@ -79,7 +93,8 @@ public class Apple {
     }
 
     /**
-     * Call the constructor with strict set to false.
+     * Call the constructor with strict set to false. Default behavior for spawning
+     * apples randomly.
      */
     public Apple(StateManager stateManager) {
         this(stateManager, false);
@@ -112,6 +127,10 @@ public class Apple {
         }
     }
 
+    /**
+     * Empty method to be overriden by child classes. Triggered when expiresIn
+     * reaches 0. See above update() method for the expiry logic.
+     */
     public void onExpire(StateManager stateManager) {
     }
 

@@ -14,10 +14,24 @@ import java.util.Set;
 import utils.Config;
 import utils.Direction;
 
+/**
+ * Handles the entire state of the game, and updating it.
+ * 
+ * The state manager keeps track of: everything to do with the snake, apples,
+ * the score, and whether the game is paused or ended. Every update, the
+ * update() method is called by the GameLoop class.
+ * 
+ * @author Tymur Tykva
+ * @ID 2275201
+ * @author Borislav Grebanarov
+ * @ID 2109832
+ */
 public class StateManager {
+    // Logic components.
     private InputBuffer inputBuffer;
     private RetryHandler retryHandler;
 
+    // Game state.
     private volatile Deque<Point> snake; // Front of the queue is the head.
     private volatile ArrayList<Apple> apples;
 
@@ -34,6 +48,14 @@ public class StateManager {
     private String gameOverMessage;
 
     /* ---------------- Constructor --------------- */
+    /**
+     * Creates a new state manager instance, and initializes the game state. The
+     * Random instance is seeded with the current time, and salted with a random
+     * number, so it should be accurate.
+     * 
+     * @param inputBuffer  The InputBuffer instance.
+     * @param retryHandler The RetryHandler instance.
+     */
     public StateManager(InputBuffer inputBuffer, RetryHandler retryHandler) {
         this.inputBuffer = inputBuffer;
         this.retryHandler = retryHandler;
@@ -42,6 +64,13 @@ public class StateManager {
     }
 
     /* ------------------ Public ------------------ */
+    /**
+     * Resets the game state:
+     * - Flushes the input buffer.
+     * - Resets the snake, apples, and score.
+     * - Resets the paused state.
+     * - Resets the game over state and message.
+     */
     public void reset() {
         // Flush the input buffer.
         this.inputBuffer.clearDirectionBuffer();
@@ -75,6 +104,15 @@ public class StateManager {
         }
     }
 
+    /**
+     * Updates the state of the game. This method is called by the GameLoop class
+     * every update:
+     * - Resets the game if requested.
+     * - Captures the pause state and latest snake direction from the input buffer.
+     * - Updates the snake's position and length (if required).
+     * - Checks for collisions between the snake, the border, and the apples.
+     * - Updates and spawns apples.
+     */
     public void update() {
         // Reset the game if requested.
         if (inputBuffer.getRetry()) {
@@ -93,22 +131,8 @@ public class StateManager {
             return;
         }
 
-        // System.out.println("=== Update ===");
-        // System.out.println("Pause state: " + this.isPaused);
-        // System.out.println("snake: ");
-        // for (Point point : snake) {
-        // System.out.println("- " + point.toString());
-        // }
-        // System.out.println();
-        // System.out.println("apples: ");
-        // for (Apple apple : apples) {
-        // System.out.println("- " + apple.getClass().getName() + "@" +
-        // apple.getPosition().toString());
-        // }
-        // System.out.println();
-        // System.out.println("snakeDirection: " + snakeDirection);
-
-        // Update stored snake direction.
+        // Update stored snake direction, if it the latest input is a direction not
+        // opposite to the current one.
         Direction inputDirection = inputBuffer.getDirection();
         if (inputDirection != null && snakeDirection.getOpposite() != inputDirection) {
             snakeDirection = inputDirection;
@@ -144,14 +168,22 @@ public class StateManager {
         spawnApples();
     }
 
+    /**
+     * Clears the input direction buffer.
+     */
     public void clearInputDirectionBuffer() {
         inputBuffer.clearDirectionBuffer();
     }
 
+    /**
+     * Sets a random death message from the passed list of death messages. The lists
+     * can be found in the Config class.
+     * 
+     * @param messageList The list of death messages.
+     */
     public void setRandomDeathMessage(String[] messageList) {
         int messageIndex = random.nextInt(messageList.length);
         this.gameOverMessage = messageList[messageIndex];
-        // System.out.println(this.gameOverMessage);
     }
 
     /* ------------------ Getters ----------------- */
@@ -195,6 +227,12 @@ public class StateManager {
         return isPaused;
     }
 
+    /**
+     * Returns whether the pause state has changed since the last update. This
+     * method resets the pauseChanged state for the next update.
+     * 
+     * @return Whether the pause state has changed.
+     */
     public boolean pauseChanged() {
         boolean changeState = this.pauseChanged;
         this.pauseChanged = false;
@@ -215,14 +253,11 @@ public class StateManager {
         this.score += 1;
     }
 
-    // public void addScore(int score) {
-    // this.score += score;
-    // }
-
-    // public void setScore(int score) {
-    // this.score = score;
-    // }
-
+    /**
+     * Sets the paused state, and sets pauseChanged to true.
+     * 
+     * @param paused The paused state.
+     */
     public void setPaused(boolean paused) {
         this.isPaused = paused;
         this.pauseChanged = true;
@@ -232,6 +267,12 @@ public class StateManager {
         this.snake = snake;
     }
 
+    /**
+     * Sets the snake and direction.
+     * 
+     * @param snake     The snake.
+     * @param direction The snake direction.
+     */
     public void setSnake(Deque<Point> snake, Direction direction) {
         this.snake = snake;
         this.snakeDirection = direction;
@@ -370,9 +411,12 @@ public class StateManager {
         }
     }
 
+    /**
+     * Calls the update() method on every tracked apple.
+     */
     private void updateApples() {
         // Create a copy of the apples list to avoid ConcurrentModificationException
-        // when apples are added/removed during update() calls
+        // when apples are added/removed during update() calls.
         ArrayList<Apple> applesCopy = new ArrayList<>(apples);
 
         for (Apple apple : applesCopy) {
@@ -380,6 +424,12 @@ public class StateManager {
         }
     }
 
+    /**
+     * Checks whether the snake is involved in a 'final' (game-ending) collision,
+     * and sets an appropriate death message if so.
+     * 
+     * @return Whether the snake is colliding with itself.
+     */
     private boolean isFinalColliding() {
         boolean snakeSelfColliding = isSnakeSelfColliding();
         boolean inBounds = isInBounds(snake.peekFirst());
@@ -394,6 +444,12 @@ public class StateManager {
         return snakeSelfColliding || !inBounds;
     }
 
+    /**
+     * Checks whether the snake is colliding with an apple, and returns the apple it
+     * is colliding with.
+     * 
+     * @return The apple the snake is colliding with, or null.
+     */
     private Apple isAppleColliding() {
         Point head = snake.peekFirst();
 
@@ -406,6 +462,11 @@ public class StateManager {
         return null;
     }
 
+    /**
+     * Checks whether the snake is involved in a 'self-collision.
+     * 
+     * @return Whether the snake is colliding with itself.
+     */
     private boolean isSnakeSelfColliding() {
         Set<Point> snakePoints = new HashSet<Point>();
 
@@ -416,6 +477,12 @@ public class StateManager {
         return snakePoints.size() != snake.size();
     }
 
+    /**
+     * Checks whether the passed point is within the bounds of the grid.
+     * 
+     * @param position The point to check.
+     * @return Whether the point is within the bounds.
+     */
     private boolean isInBounds(Point position) {
         return position.x >= 0 && position.x < Config.GRID_SIDE
                 && position.y >= 0 && position.y < Config.GRID_SIDE;

@@ -6,6 +6,15 @@ import java.util.LinkedList;
 import logic.StateManager;
 import utils.Direction;
 
+/**
+ * A yellow apple. When eaten, the snake grows by one, and the score is
+ * increased by one.
+ * 
+ * @author Tymur Tykva
+ * @ID 2275201
+ * @author Borislav Grebanarov
+ * @ID 2109832
+ */
 public class YellowApple extends Apple {
     /* --------------- Constructors --------------- */
     /**
@@ -30,6 +39,12 @@ public class YellowApple extends Apple {
     }
 
     /* ------------------ Public ------------------ */
+    /**
+     * When the apple is eaten, the snake grows by one, the score is increased by
+     * one, and the snake is flipped: the head becomes the tail, and vice versa.
+     * 
+     * @param stateManager The StateManager instance.
+     */
     @Override
     public void eat(StateManager stateManager) {
         // Flip the snake: head becomes the tail, and vice versa.

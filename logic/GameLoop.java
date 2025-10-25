@@ -7,25 +7,50 @@ import ui.PanelGameOver;
 import ui.PanelPause;
 import ui.PanelTutorial;
 
+/**
+ * Creates and starts the game loop thread. The thread controls the frame times,
+ * and by extension updates the state, handles switching between panels in the
+ * mainPanelContainer (see Frame), and repainting the Panel.
+ * 
+ * @author Tymur Tykva
+ * @ID 2275201
+ * @author Borislav Grebanarov
+ * @ID 2109832
+ */
 public class GameLoop implements Runnable {
     private static final int FPS = 4;
     private static final long INTERVAL_NS = 1_000_000_000L / FPS; // this is 1 second in nanosecods
 
-    // UI components.
+    // Main panel components.
     private Panel panel;
     private PanelPause pauseMenu;
     private PanelGameOver gameOverMenu;
     private PanelTutorial tutorialMenu;
     private CardLayout cl; // Card layout for the mainPanelContainer.
 
+    // Other UI components.
     private JLabel scoreLabel;
 
+    // Logic components.
     private StateManager stateManager;
 
+    // Game loop properties.
     private Thread thread;
     private boolean running;
     private boolean tutorialDismissed;
 
+    /**
+     * Creates and readies an instance of the GameLoop, ready to be started with the
+     * start() method.
+     * 
+     * @param stateManager The StateManager instance.
+     * @param panel        The Panel instance.
+     * @param pauseMenu    The PanelPause instance.
+     * @param gameOverMenu The PanelGameOver instance.
+     * @param tutorialMenu The PanelTutorial instance.
+     * @param cl           The CardLayout instance.
+     * @param scoreLabel   The JLabel instance.
+     */
     public GameLoop(StateManager stateManager,
             Panel panel, PanelPause pauseMenu, PanelGameOver gameOverMenu, PanelTutorial tutorialMenu,
             CardLayout cl, JLabel scoreLabel) {
@@ -44,6 +69,12 @@ public class GameLoop implements Runnable {
         this.tutorialDismissed = false;
     }
 
+    /**
+     * Starts the game loop thread:
+     * - Resets the state manager.
+     * - Makes the main panel visible, and focuses it.
+     * - Creates and starts the thread that executes the game loop.
+     */
     public void start() {
         // Reset the state manager.
         stateManager.reset();
@@ -59,9 +90,11 @@ public class GameLoop implements Runnable {
         thread.start();
     }
 
+    /**
+     * Stops the game loop thread: sets the running flag to false and stops the
+     * thread.
+     */
     public void stop() {
-        // System.out.println("Stopping");
-
         // Set the running flag to false to stop the game loop and stop the thread.
         this.running = false;
 
@@ -72,13 +105,15 @@ public class GameLoop implements Runnable {
         }
     }
 
+    /**
+     * Dictates what happens in the game loop thread every update. This method is
+     * responsible for updating the state of the game, repainiting the panel, and
+     * handling the tutorial, pause, and game over states.
+     */
     @Override
     public void run() {
         long previousTime = System.nanoTime();
         long lag = 0L;
-
-        // System.out.println("=== Loop Start ===");
-        // System.out.println("interval: " + INTERVAL_NS);
 
         // If the tutorial hasn't been dismissed on this run, pause state updates and
         // show the tutorial panel.
@@ -112,6 +147,7 @@ public class GameLoop implements Runnable {
                 panel.requestFocus();
             }
 
+            // If the game is over, display the game over menu and break the loop.
             if (stateManager.isGameOver()) {
                 cl.show(gameOverMenu.getParent(), "gameOverMenu");
                 gameOverMenu.updateGameOverMessage();
@@ -125,7 +161,8 @@ public class GameLoop implements Runnable {
             String score = String.valueOf(stateManager.getScore());
             scoreLabel.setText(score);
 
-            // If the pause state has changed, update the display accordingly.
+            // If the pause state has changed, update the display accordingly. If the
+            // tutorial hasn't yet been dismissed, this update is ignored.
             boolean pauseChanged = stateManager.pauseChanged();
             boolean isPaused = stateManager.isPaused();
 
@@ -152,9 +189,6 @@ public class GameLoop implements Runnable {
             if (sleepTime > 0) {
                 long sleepMs = sleepTime / 1_000_000L;
                 int sleepNs = (int) (sleepTime % 1_000_000L);
-
-                // System.out.println("=== Sleep ===");
-                // System.out.println("sleep: " + sleepMs + "ms " + sleepNs + "ns");
 
                 try {
                     Thread.sleep(sleepMs, sleepNs);

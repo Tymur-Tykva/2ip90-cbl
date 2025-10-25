@@ -3,6 +3,15 @@ package apples;
 import java.awt.Point;
 import logic.StateManager;
 
+/**
+ * A red apple. When eaten, the length of the snake increases by one, and the
+ * score is similarly increased by one.
+ * 
+ * @author Tymur Tykva
+ * @ID 2275201
+ * @author Borislav Grebanarov
+ * @ID 2109832
+ */
 public class RedApple extends Apple {
     /* --------------- Constructors --------------- */
     /**

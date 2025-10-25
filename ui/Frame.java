@@ -8,6 +8,15 @@ import logic.InputBuffer;
 import logic.RetryHandler;
 import logic.StateManager;
 
+/**
+ * The Frame. Builds out the UI and logic structure, and starts the game loop.
+ * Similarly allows the game loop to be restarted.
+ * 
+ * @author Tymur Tykva
+ * @ID 2275201
+ * @author Borislav Grebanarov
+ * @ID 2109832
+ */
 public class Frame extends JFrame {
     // Container for the main panel slot.
     private JPanel mainPanelContainer;
@@ -24,7 +33,7 @@ public class Frame extends JFrame {
     private GameLoop gameLoop;
 
     /*
-     * Create a frame with default parameters.
+     * Create the frame, and instance the UI and logic components.
      */
     public Frame() {
         // Set the frame's parameters.
@@ -79,53 +88,56 @@ public class Frame extends JFrame {
         // Set the layout.
         setLayout(new BorderLayout());
 
-        // Set the layout of panelTop.
+        // Create and style panelTop.
         JPanel panelTop = new JPanel();
         panelTop.setPreferredSize(new Dimension(605, 70));
         panelTop.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         panelTop.setBackground(new Color(147, 109, 62));
         panelTop.setLayout(new BorderLayout());
 
-        // Set the layout of panelScore.
+        // Create and style panelScore.
         JPanel panelScore = new JPanel();
         panelScore.setPreferredSize(new Dimension(80, 30));
         panelScore.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         panelScore.setBackground(new Color(200, 163, 117));
         panelScore.setLayout(new BorderLayout());
 
-        // Set score labels and panel.
+        // Create and style the score labels.
         Color colorBrown = new Color(101, 67, 33);
         JLabel scoreTitle = new JLabel("score:");
 
         scoreTitle.setForeground(colorBrown);
         scoreLabel.setForeground(colorBrown);
 
+        // Add the score labels to their container, and then to panelTop.
         panelScore.add(scoreTitle, BorderLayout.CENTER);
         panelScore.add(scoreLabel, BorderLayout.EAST);
 
         panelTop.add(panelScore, BorderLayout.WEST);
 
-        // Set pause button.
+        // Create and add the pause button.
         PauseButton pause = new PauseButton("");
         panelTop.add(pause, BorderLayout.EAST);
 
-        // Set the pause button listener
+        // Set the pause button listener; toggles the pause state on press.
         pause.addActionListener((ActionEvent e) -> {
             inputBuffer.togglePause();
         });
 
-        // Set the mainPanelContainer.
+        // Create the mainPanelContainer.
         mainPanelContainer.setPreferredSize(new Dimension(605, 605));
         mainPanelContainer.setBackground(new Color(147, 109, 62));
 
-        // Adding all of the panels to the frame.
-        add(panelTop, BorderLayout.NORTH);
-        add(mainPanelContainer, BorderLayout.CENTER);
-
+        // Add all the child panels to the mainPanelContainer.
+        // On first launch, 'tutorialMenu' is shown in the GameLoop.
         mainPanelContainer.add(panelMain, "panelMain");
         mainPanelContainer.add(pauseMenu, "pauseMenu");
         mainPanelContainer.add(gameOverMenu, "gameOverMenu");
         mainPanelContainer.add(tutorialMenu, "tutorialMenu");
+
+        // Add the top and main panels to the frame.
+        add(panelTop, BorderLayout.NORTH);
+        add(mainPanelContainer, BorderLayout.CENTER);
 
         // Display the frame.
         pack();
