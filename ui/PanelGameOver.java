@@ -94,7 +94,9 @@ public class PanelGameOver extends JPanel {
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                inputBuffer.handleEvent(e);
+                if (e.getKeyCode() == KeyEvent.VK_R) {
+                    stateManager.getRetryHandler().retry();
+                }
             }
         });
     }
