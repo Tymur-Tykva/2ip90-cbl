@@ -97,6 +97,7 @@ public class PanelTutorial extends JPanel {
 
         // Create the prompt panel.
         JPanel promptPanel = new JPanel();
+        promptPanel.setBackground(null);
         promptPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
         // Set the prompt text.
@@ -105,11 +106,16 @@ public class PanelTutorial extends JPanel {
         promptText.setForeground(colorText);
 
         // Add the prompt text to the prompt panel.
+        promptPanel.add(Box.createVerticalGlue());
         promptPanel.add(promptText);
+        promptPanel.add(Box.createVerticalGlue());
+        promptPanel.add(Box.createRigidArea(new Dimension(0, 150)));
 
         // Add all child panels to the tutorial panel.
         add(topPanelTutorial, BorderLayout.NORTH);
         add(promptPanel, BorderLayout.SOUTH);
+
+        setBorder(BorderFactory.createEmptyBorder());
 
         // Add a keyboard listener.
         setFocusable(true);
