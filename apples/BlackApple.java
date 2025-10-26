@@ -24,7 +24,7 @@ public class BlackApple extends Apple {
      */
     public BlackApple(Point position) {
         super(position);
-        this.imageUrl = getClass().getResource("/ui/blackAppleImage.png");
+        this.imageUrl = getClass().getResource("/images/blackAppleImage.png");
         this.expiresIn = 10;
     }
 
@@ -36,7 +36,7 @@ public class BlackApple extends Apple {
      */
     public BlackApple(StateManager stateManager) {
         super(stateManager, true);
-        this.imageUrl = getClass().getResource("/ui/blackAppleImage.png");
+        this.imageUrl = getClass().getResource("/images/blackAppleImage.png");
         this.expiresIn = 10;
     }
 

@@ -24,7 +24,7 @@ public class YellowApple extends Apple {
      */
     public YellowApple(Point position) {
         super(position);
-        this.imageUrl = getClass().getResource("/ui/yellowAppleImage.png");
+        this.imageUrl = getClass().getResource("/images/yellowAppleImage.png");
     }
 
     /**
@@ -35,7 +35,7 @@ public class YellowApple extends Apple {
      */
     public YellowApple(StateManager stateManager) {
         super(stateManager, true);
-        this.imageUrl = getClass().getResource("/ui/yellowAppleImage.png");
+        this.imageUrl = getClass().getResource("/images/yellowAppleImage.png");
     }
 
     /* ------------------ Public ------------------ */

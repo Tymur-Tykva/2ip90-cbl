@@ -88,9 +88,9 @@ public class PanelTutorial extends JPanel {
         topPanelTutorial.add(typesApple);
 
         // Set the fricking images of Apples (this took way too long :( )
-        URL imageUrlRedApple = getClass().getResource("/ui/redAppleImage.png");
-        URL imageUrlYellowApple = getClass().getResource("/ui/yellowAppleImage.png");
-        URL imageUrlBlackApple = getClass().getResource("/ui/blackAppleImage.png");
+        URL imageUrlRedApple = getClass().getResource("/images/redAppleImage.png");
+        URL imageUrlYellowApple = getClass().getResource("/images/yellowAppleImage.png");
+        URL imageUrlBlackApple = getClass().getResource("/images/blackAppleImage.png");
 
         ImageIcon imageIconRed = new ImageIcon(imageUrlRedApple);
         ImageIcon imageIconYellow = new ImageIcon(imageUrlYellowApple);
@@ -111,8 +111,8 @@ public class PanelTutorial extends JPanel {
         topPanelTutorial.add(labelYellowApple);
         topPanelTutorial.add(labelBlackApple);
 
-        // Set the image for the controls
-        URL imageUrlControls = getClass().getResource("/ui/Controls.png");
+        // Set the image of the controls
+        URL imageUrlControls = getClass().getResource("/images/Controls.png");
         ImageIcon imageIconControls = new ImageIcon(imageUrlControls);
         JLabel labelCont = new JLabel(imageIconControls);
         labelCont.setBounds(30, 250,

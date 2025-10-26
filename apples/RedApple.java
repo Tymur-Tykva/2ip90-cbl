@@ -21,7 +21,7 @@ public class RedApple extends Apple {
      */
     public RedApple(Point position) {
         super(position);
-        this.imageUrl = getClass().getResource("/ui/redAppleImage.png");
+        this.imageUrl = getClass().getResource("/images/redAppleImage.png");
     }
 
     /**
@@ -31,7 +31,7 @@ public class RedApple extends Apple {
      */
     public RedApple(StateManager stateManager) {
         super(stateManager);
-        this.imageUrl = getClass().getResource("/ui/redAppleImage.png");
+        this.imageUrl = getClass().getResource("/images/redAppleImage.png");
     }
 
     /* ------------------ Public ------------------ */
