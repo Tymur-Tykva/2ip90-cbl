@@ -44,7 +44,7 @@ public class Apple {
      * 
      * Available space requirements are specified in the Config class.
      * 
-     * @param stateManager The StateManager instance.
+     * @param stateManager The game's unique StateManager instance.
      * @param strict       If true, the apple will only spawn if there are at least
      *                     'n' available spaces.
      */

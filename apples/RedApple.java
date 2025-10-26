@@ -27,7 +27,7 @@ public class RedApple extends Apple {
     /**
      * Create an instance of RedApple at a random available space on the board.
      * 
-     * @param stateManager The StateManager instance.
+     * @param stateManager The game's unique StateManager instance.
      */
     public RedApple(StateManager stateManager) {
         super(stateManager);

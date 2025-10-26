@@ -43,7 +43,7 @@ public class GameLoop implements Runnable {
      * Creates and readies an instance of the GameLoop, ready to be started with the
      * start() method.
      * 
-     * @param stateManager The StateManager instance.
+     * @param stateManager The game's unique StateManager instance.
      * @param panel        The Panel instance.
      * @param pauseMenu    The PanelPause instance.
      * @param gameOverMenu The PanelGameOver instance.
@@ -51,9 +51,14 @@ public class GameLoop implements Runnable {
      * @param cl           The CardLayout instance.
      * @param scoreLabel   The JLabel instance.
      */
-    public GameLoop(StateManager stateManager,
-            Panel panel, PanelPause pauseMenu, PanelGameOver gameOverMenu, PanelTutorial tutorialMenu,
-            CardLayout cl, JLabel scoreLabel) {
+    public GameLoop(
+            // Logic
+            StateManager stateManager,
+            // Main panel UI components
+            Panel panel, PanelPause pauseMenu, PanelGameOver gameOverMenu,
+            PanelTutorial tutorialMenu, CardLayout cl,
+            // Other UI components
+            JLabel scoreLabel) {
         // Get the UI components.
         this.panel = panel;
         this.pauseMenu = pauseMenu;
@@ -134,7 +139,6 @@ public class GameLoop implements Runnable {
 
             // Execute state updates while allowed.
             while (lag >= INTERVAL_NS) {
-                // System.out.println("Update: " + lag);
                 stateManager.update();
                 lag -= INTERVAL_NS;
             }

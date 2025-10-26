@@ -32,7 +32,7 @@ public class BlackApple extends Apple {
      * Create an instance of BlackApple at a random available space on the board,
      * with strict set to true.
      * 
-     * @param stateManager The StateManager instance.
+     * @param stateManager The game's unique StateManager instance.
      */
     public BlackApple(StateManager stateManager) {
         super(stateManager, true);
@@ -54,7 +54,7 @@ public class BlackApple extends Apple {
      * previous position. The probabilities of turning into each are specified in
      * the Config class.
      * 
-     * @param stateManager The StateManager instance.
+     * @param stateManager The game's unique StateManager instance.
      */
     @Override
     public void onExpire(StateManager stateManager) {

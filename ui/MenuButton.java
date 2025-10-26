@@ -6,8 +6,21 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+/**
+ * Button subclass which styles the buttons used in the pause and game over
+ * menus.
+ * 
+ * @author Tymur Tykva
+ * @ID 2275201
+ * @author Borislav Grebanarov
+ * @ID 2109832
+ */
 public class MenuButton extends JButton {
-
+    /**
+     * Creates a new instance of MenuButton with some given text.
+     * 
+     * @param text The text to display in the button.
+     */
     public MenuButton(String text) {
         super(text);
         // Intiliaze the customs for the buttons

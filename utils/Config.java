@@ -35,16 +35,20 @@ public class Config {
 
     /* ----------------- Game Over ---------------- */
     public static final String[] DEATH_SELF_MESSAGES = {
-            "Try avoiding your own body.", "Next time, turn away from yourself.", "Try not panic pressing the buttons."
+        "Try avoiding your own body.",
+        "Next time, turn away from yourself.",
+        "Try not panic pressing the buttons."
     };
 
     public static final String[] DEATH_BORDER_MESSAGES = {
-            "Try avoiding borders.", "The walls should be quite easy to avoid...",
-            "Tip: don't eat yellow apples when right next to the border."
+        "Try avoiding borders.",
+        "The walls should be quite easy to avoid...",
+        "Tip: don't eat yellow apples when right next to the border."
     };
 
     public static final String[] DEATH_BLACK_APPLE_MESSAGES = {
-            "Try avoiding the black apples.", "The color black does usually mean death.",
-            "Wait for a bit before eating the black apples, they might change."
+        "Try avoiding the black apples.",
+        "The color black does usually mean death.",
+        "Wait for a bit before eating the black apples, they might change."
     };
 }

@@ -31,7 +31,7 @@ public class YellowApple extends Apple {
      * Create an instance of YellowApple at a random available space on the board,
      * with strict set to true.
      * 
-     * @param stateManager The StateManager instance.
+     * @param stateManager The game's unique StateManager instance.
      */
     public YellowApple(StateManager stateManager) {
         super(stateManager, true);
@@ -43,7 +43,7 @@ public class YellowApple extends Apple {
      * When the apple is eaten, the snake grows by one, the score is increased by
      * one, and the snake is flipped: the head becomes the tail, and vice versa.
      * 
-     * @param stateManager The StateManager instance.
+     * @param stateManager The game's unique StateManager instance.
      */
     @Override
     public void eat(StateManager stateManager) {

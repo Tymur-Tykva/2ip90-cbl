@@ -159,7 +159,6 @@ public class StateManager {
         Apple apple = isAppleColliding();
 
         if (apple != null) {
-            // System.out.println("Apple collision: " + apple.getPosition());
             apple.eat(this);
         }
 

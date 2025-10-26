@@ -2,10 +2,15 @@ package utils;
 
 import java.awt.Point;
 
-// The possible directions of the snake.
+/**
+ * Enum representing the 4 possible directions of the snake.
+ */
 public enum Direction {
     U, D, L, R;
 
+    /**
+     * Returns the opposite of the own direction.
+     */
     public Direction getOpposite() {
         switch (this) {
             case U:
@@ -22,9 +27,16 @@ public enum Direction {
         }
     }
 
+    /**
+     * Returns the direction between two points: the direction of 'first' from
+     * 'second'. So if 'second' is to the right of 'first' (xDiff < 0), then the
+     * output will be L.
+     *
+     * @param first  The first point.
+     * @param second The second point.
+     * @return The direction between the two points.
+     */
     public static Direction betweenTwoPoints(Point first, Point second) {
-        // positive x = left, positive y = down
-
         int xDiff = first.x - second.x;
         int yDiff = first.y - second.y;
 

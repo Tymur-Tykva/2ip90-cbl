@@ -32,7 +32,7 @@ public class Frame extends JFrame {
     // Game loop.
     private GameLoop gameLoop;
 
-    /*
+    /**
      * Create the frame, and instance the UI and logic components.
      */
     public Frame() {
@@ -78,11 +78,14 @@ public class Frame extends JFrame {
 
         // Init the game loop.
         CardLayout cl = (CardLayout) (mainPanelContainer.getLayout());
-        this.gameLoop = new GameLoop(stateManager, panelMain, pauseMenu, gameOverMenu, tutorialMenu, cl, scoreLabel);
+        this.gameLoop = new GameLoop(stateManager,
+                panelMain, pauseMenu, gameOverMenu,
+                tutorialMenu, cl,
+                scoreLabel);
     }
 
-    /*
-     * Initialise the UI layout.
+    /**
+     * Initialises the UI layout and starts the game.
      */
     public void init() {
         // Set the layout.
