@@ -4,6 +4,11 @@ import java.awt.Point;
 
 /**
  * Enum representing the 4 possible directions of the snake.
+ * 
+ * @author Tymur Tykva
+ * @ID 2275201
+ * @author Borislav Grebanarov
+ * @ID 2109832
  */
 public enum Direction {
     U, D, L, R;
